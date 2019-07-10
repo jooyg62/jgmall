@@ -22,5 +22,9 @@ public class UserService {
 		
 		return userVo;
 	}
+
+	public Boolean existId(String id) {
+		return "jgseo".equals(id) ? true : false;
+	}
 	
 }

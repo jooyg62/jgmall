@@ -2,6 +2,7 @@ package com.cafe24.jgmall.controller.api;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -53,7 +54,7 @@ public class UserControllerTest {
 		
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -74,7 +75,7 @@ public class UserControllerTest {
 		
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -100,7 +101,7 @@ public class UserControllerTest {
 		
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
 		.andExpect(status().isOk())
@@ -116,7 +117,7 @@ public class UserControllerTest {
 		
 		ResultActions resultActions2 = 
 		mockMvc
-		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));
 		
 		resultActions2
 		.andExpect(status().isOk())
@@ -132,7 +133,7 @@ public class UserControllerTest {
 		
 		ResultActions resultActions3 = 
 		mockMvc
-		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo3)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo3)));
 		
 		resultActions3
 		.andExpect(status().isOk())
@@ -144,24 +145,79 @@ public class UserControllerTest {
 	
 	/**
 	 *	password validation 		
-	 *  패스워드: 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함, 8자~16자.
+	 *  패스워드: 
+	 *  1) 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
+	 *  2) 8자~16자.
 	 */
 	@Test
 	public void test_d_login_pw_valid() throws Exception {
-		// login request
+		// 1) 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
 		UserVo vo = new UserVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseowef");
 		
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
+		;
+		
+		// 2) 8자~16자.
+		UserVo vo2 = new UserVo();
+		vo2.setUserId("jgseo");
+		vo2.setPassword("!@jgseowef25402918409214");
+		
+		ResultActions resultActions2 = 
+		mockMvc
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));
+		
+		resultActions2
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * id 중복 체크
+	 * : 존재시 result: success 
+	 */
+	@Test
+	public void test_e_exist_id_true() throws Exception {
+		// id 중복 존재
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/user/exist/{id}", "jgseo").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
+	
+	/**
+	 * id 중복 체크
+	 * : 존재 x result: false
+	 */
+	@Test
+	public void test_e_exist_id_false() throws Exception {
+		// id 중복 존재
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/user/exist/{id}", "jgseo333").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("중복되는 아이디 없음.")))
 		;
 	}
 	
