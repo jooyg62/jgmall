@@ -7,9 +7,19 @@ import com.cafe24.jgmall.vo.UserVo;
 @Service
 public class UserService {
 
-	public UserVo userLogin() {
-		UserVo userVo = new UserVo();
-//		userVo.get
+	public UserVo userLogin(UserVo userVo) {
+		if("jgseo".equals(userVo.getUserId()) && "1234".equals(userVo.getPassword())) {
+			userVo.setNo(1L);
+			userVo.setUserNm("서장규");
+			userVo.setJoinDate("2019.07.10");
+			userVo.setTelNum("010-4115-6736");
+			userVo.setGender("M");
+			userVo.setAge(27);
+			userVo.setDelFl("N");
+		} else {
+			return null;
+		}
+		
 		return userVo;
 	}
 	

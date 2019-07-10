@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 @Configuration
+@ComponentScan(basePackages = {"com.cafe24.jgmall"})
 public class WebConfig implements WebMvcConfigurer {
 	
 	/**
@@ -53,4 +55,5 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/images/**").addResourceLocations("file:/jgmall-uploads/");
 	}
+	
 }

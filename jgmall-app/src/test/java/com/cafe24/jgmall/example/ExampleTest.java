@@ -1,12 +1,27 @@
 package com.cafe24.jgmall.example;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.both;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.either;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -67,7 +82,15 @@ public class ExampleTest {
 	}
 	
 	@Test
-	public void testAssert() {
+	public void testAssert1() {
+		Object[] a = {"Java", "JUnit", "Spring"};
+		Object[] b = {"Java", "JUnit", "Spring"};
+		
+		assertArrayEquals(a, b);
+	}
+	
+	@Test
+	public void testAssert2() {
 		assertTrue(true);
 		assertFalse(false);
 		
@@ -81,8 +104,31 @@ public class ExampleTest {
 		assertSame("Hello", "Hello");
 		assertNotSame(new Integer(1), new Integer(1));
 		
-		// assertThat
+		// assertThat: is
+		assertThat(1+2, is(3));
+		assertThat("this is never", is(not(3)));
 		
+		
+		// assertThat: allof
+		assertThat("Hello World", allOf(startsWith("Hell"), containsString("or")));
+		
+		// assertThat: anyOf 둘중 하나라도 맞으니까 통과
+		assertThat("Hello World", anyOf(startsWith("Heaven"), containsString("or")));
+		
+		// assertThat: both
+		assertThat("ABC", both(containsString("A")).and(containsString("C")));
+		
+		// assertThat: either
+		assertThat("ABC", either(containsString("A")).or(containsString("c")));
+		
+		// assertThat: everyItem
+		assertThat(Arrays.asList("Apple", "Apolosize"), everyItem((startsWith("Ap"))));
+		
+		// assertThat: hasItem 하나만 맞으면 됨
+		assertThat(Arrays.asList("Red", "Banana", "Apolosize"), hasItem((startsWith("Ap"))));
+		
+		// 
+		fail("All Over!!!!!");
 	}
 	
 }
