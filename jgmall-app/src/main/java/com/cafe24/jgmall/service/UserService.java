@@ -8,7 +8,7 @@ import com.cafe24.jgmall.vo.UserVo;
 public class UserService {
 
 	public UserVo userLogin(UserVo userVo) {
-		if("jgseo".equals(userVo.getUserId()) && "1234".equals(userVo.getPassword())) {
+		if("jgseo".equals(userVo.getUserId()) && "!@jgseo450".equals(userVo.getPassword())) {
 			userVo.setNo(1L);
 			userVo.setUserNm("서장규");
 			userVo.setJoinDate("2019.07.10");

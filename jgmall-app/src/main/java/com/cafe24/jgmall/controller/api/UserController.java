@@ -1,5 +1,7 @@
 package com.cafe24.jgmall.controller.api;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,22 @@ public class UserController {
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
+		String id = userVo.getUserId();
+		String password = userVo.getPassword();
+		
+		String idRegex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{4,14}$";
+		String pwRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$";
+		
+		
+		if(!Pattern.matches(idRegex, id)) {
+			return JSONResult.fail("아이디 형식이 맞지 않습니다.");
+		}
+		
+		if(!Pattern.matches(pwRegex, password)) {
+			return JSONResult.fail("패스워드 형식이 맞지 않습니다.");
+		}
+		
+		
 		// 유저 정보
 		UserVo authUser = userService.userLogin(userVo);
 		
@@ -41,4 +59,6 @@ public class UserController {
 		
 		return JSONResult.success(authUser);
 	}
+	
+	
 }

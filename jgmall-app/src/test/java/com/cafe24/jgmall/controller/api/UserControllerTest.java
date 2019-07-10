@@ -49,7 +49,7 @@ public class UserControllerTest {
 		// login request
 		UserVo vo = new UserVo();
 		vo.setUserId("jgseo");
-		vo.setPassword("1234");
+		vo.setPassword("!@jgseo450");
 		
 		ResultActions resultActions = 
 		mockMvc
@@ -70,7 +70,7 @@ public class UserControllerTest {
 		// login request
 		UserVo vo = new UserVo();
 		vo.setUserId("jgseo");
-		vo.setPassword("12345");
+		vo.setPassword("!@jgseo4508");
 		
 		ResultActions resultActions = 
 		mockMvc
@@ -85,17 +85,18 @@ public class UserControllerTest {
 	}
 	
 	/**
-	 *	id, password validation 		
-	 *	사용자 아이디: 5자 이상 15자 이하로 등록.
-	 *  패스워드: 영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자.
+	 *	id validation 		
+	 *	사용자 아이디: 
+	 *	1) 영문 시작
+	 *  2) 5자 이상 15자 이하로 등록.
+	 *  3) 영문과 숫자만 가능
 	 */
-	@Ignore
 	@Test
-	public void test_c_loginValid() throws Exception {
-		// login request
+	public void test_c_login_id_valid() throws Exception {
+		// 1) 영문 시작
 		UserVo vo = new UserVo();
-		vo.setUserId("jgse");
-		vo.setPassword("1234");
+		vo.setUserId("1jgse");
+		vo.setPassword("!@jgseo450");
 		
 		ResultActions resultActions = 
 		mockMvc
@@ -105,9 +106,63 @@ public class UserControllerTest {
 		.andExpect(status().isOk())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		;
+		
+		// 2) 5자 이상 15자 이하로 등록.
+		UserVo vo2 = new UserVo();
+		vo2.setUserId("jgse");
+		vo2.setPassword("!@jgseo450");
+		
+		ResultActions resultActions2 = 
+		mockMvc
+		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));
+		
+		resultActions2
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		;
+		
+		// 3) 영문과 숫자만 가능
+		UserVo vo3 = new UserVo();
+		vo3.setUserId("d안녕g세요");
+		vo3.setPassword("!@jgseo450");
+		
+		ResultActions resultActions3 = 
+		mockMvc
+		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo3)));
+		
+		resultActions3
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
 	}
 	
+	/**
+	 *	password validation 		
+	 *  패스워드: 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함, 8자~16자.
+	 */
+	@Test
+	public void test_d_login_pw_valid() throws Exception {
+		// login request
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo");
+		vo.setPassword("!@jgseowef");
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
+		;
+	}
 	
 }
