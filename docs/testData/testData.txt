@@ -4,7 +4,7 @@
   "password": "1234",
   "userNm": "서장규",
   "joinDate": "2019.07.10",
-  "telNum": "010-4115-6736",
+  "telNum": "01041156736",
   "gender": "M",
   "age": 27,
   "delFl": "N"

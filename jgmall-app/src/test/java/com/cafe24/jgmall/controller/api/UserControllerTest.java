@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,7 @@ public class UserControllerTest {
 		.andExpect(status().isOk())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.TRUE)))
 		;
 	}
 	
@@ -80,8 +80,8 @@ public class UserControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("아이디와 패스워드가 일치하지 않습니다.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
 		;
 	}
 	
@@ -89,12 +89,10 @@ public class UserControllerTest {
 	 *	id validation 		
 	 *	사용자 아이디: 
 	 *	1) 영문 시작
-	 *  2) 5자 이상 15자 이하로 등록.
-	 *  3) 영문과 숫자만 가능
 	 */
 	@Test
 	public void test_c_login_id_valid() throws Exception {
-		// 1) 영문 시작
+		// 영문 시작
 		UserVo vo = new UserVo();
 		vo.setUserId("1jgse");
 		vo.setPassword("!@jgseo450");
@@ -106,52 +104,67 @@ public class UserControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
 		;
+	}
+	
+	/**
+	 *	id validation 		
+	 *	사용자 아이디: 
+	 *  2) 5자 이상 15자 이하로 등록.
+	 */
+	@Test
+	public void test_c_login_id_valid_range() throws Exception {
+		// 5자 이상 15자 이하로 등록.
+		UserVo vo = new UserVo();
+		vo.setUserId("jgse");
+		vo.setPassword("!@jgseo450");
 		
-		// 2) 5자 이상 15자 이하로 등록.
-		UserVo vo2 = new UserVo();
-		vo2.setUserId("jgse");
-		vo2.setPassword("!@jgseo450");
-		
-		ResultActions resultActions2 = 
+		ResultActions resultActions = 
 		mockMvc
-		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
-		resultActions2
+		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
 		;
+	}
+	
+	/**
+	 *	id validation 		
+	 *	사용자 아이디: 
+	 *  3) 영문과 숫자만 가능
+	 */
+	@Test
+	public void test_c_login_id_valid_comb() throws Exception {
+		// 영문과 숫자만 가능
+		UserVo vo = new UserVo();
+		vo.setUserId("d안녕g세요");
+		vo.setPassword("!@jgseo450");
 		
-		// 3) 영문과 숫자만 가능
-		UserVo vo3 = new UserVo();
-		vo3.setUserId("d안녕g세요");
-		vo3.setPassword("!@jgseo450");
-		
-		ResultActions resultActions3 = 
+		ResultActions resultActions = 
 		mockMvc
-		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo3)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
-		resultActions3
+		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
 		;
 	}
 	
 	/**
 	 *	password validation 		
 	 *  패스워드: 
-	 *  1) 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
-	 *  2) 8자~16자.
+	 *  1) 숫자, 문자, 특수문자 각각 1개 이상 포함
 	 */
 	@Test
-	public void test_d_login_pw_valid() throws Exception {
-		// 1) 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
+	public void test_d_login_pw_valid_comb() throws Exception {
+		// 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
 		UserVo vo = new UserVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseowef");
@@ -163,30 +176,37 @@ public class UserControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
 		;
+	}
+	
+	/**
+	 *	password validation 		
+	 *  패스워드: 
+	 *  2) 8자~16자.
+	 */
+	@Test
+	public void test_d_login_pw_valid_range() throws Exception {	
+		// 8자~16자.
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo");
+		vo.setPassword("!@jgseowef25402918409214");
 		
-		// 2) 8자~16자.
-		UserVo vo2 = new UserVo();
-		vo2.setUserId("jgseo");
-		vo2.setPassword("!@jgseowef25402918409214");
-		
-		ResultActions resultActions2 = 
+		ResultActions resultActions = 
 		mockMvc
-		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
-		resultActions2
+		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
 		;
 	}
 	
 	/**
 	 * id 중복 체크
-	 * : 존재시 result: success 
 	 */
 	@Test
 	public void test_e_exist_id_true() throws Exception {
@@ -199,16 +219,16 @@ public class UserControllerTest {
 		.andExpect(status().isOk())
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.idExistFl", is(Boolean.TRUE)))
 		;
 	}
 	
 	/**
 	 * id 중복 체크
-	 * : 존재 x result: false
 	 */
 	@Test
 	public void test_e_exist_id_false() throws Exception {
-		// id 중복 존재
+		// id 중복 존재 x
 		ResultActions resultActions = 
 		mockMvc
 		.perform(get("/api/user/exist/{id}", "jgseo333").contentType(MediaType.APPLICATION_JSON));
@@ -216,9 +236,39 @@ public class UserControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("중복되는 아이디 없음.")))
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.idExistFl", is(Boolean.FALSE)))
 		;
 	}
+	
+	/**
+	 * 회원가입: 성공
+	 */
+	@Test
+	public void test_f_join() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo3");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.joinFl", is(Boolean.TRUE)))
+		;
+	}
+	
+	/**
+	 * 회원가입 검증
+	 */
 	
 }
