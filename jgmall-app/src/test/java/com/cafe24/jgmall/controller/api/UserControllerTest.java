@@ -57,9 +57,8 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-		.andDo(print())
+//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.TRUE)))
 		;
 	}
 	
@@ -80,8 +79,8 @@ public class UserControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디, 패스워드가 일치하지 않습니다.")))
 		;
 	}
 	
@@ -102,10 +101,10 @@ public class UserControllerTest {
 		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
 	}
 	
@@ -126,10 +125,10 @@ public class UserControllerTest {
 		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디는 5~15자 사이로 입력해주세요.")))
 		;
 	}
 	
@@ -150,10 +149,33 @@ public class UserControllerTest {
 		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 *	id validation 		
+	 *	사용자 아이디: 
+	 *  빈값 체크
+	 */
+	@Test
+	public void test_login_id_valid_empty() throws Exception {
+		// 영문과 숫자만 가능
+		UserVo vo = new UserVo();
+		vo.setUserId("");
+		vo.setPassword("!@jgseo450");
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
 		;
 	}
 	
@@ -163,7 +185,7 @@ public class UserControllerTest {
 	 *  1) 숫자, 문자, 특수문자 각각 1개 이상 포함
 	 */
 	@Test
-	public void test_d_login_pw_valid_comb() throws Exception {
+	public void test_login_pw_valid_comb() throws Exception {
 		// 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
 		UserVo vo = new UserVo();
 		vo.setUserId("jgseo");
@@ -174,10 +196,10 @@ public class UserControllerTest {
 		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("패스워드는 숫자, 문자, 특수문자 각각 1개 이상 포함해야합니다.")))
 		;
 	}
 	
@@ -198,10 +220,33 @@ public class UserControllerTest {
 		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.loginFl", is(Boolean.FALSE)))
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("패스워드 길이는 8~16자 입니다.")))
+		;
+	}
+	
+	/**
+	 *	password validation 		
+	 *  패스워드: 
+	 *  빈값 체크
+	 */
+	@Test
+	public void test_login_pw_valid_empty() throws Exception {	
+		// 8자~16자.
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo");
+		vo.setPassword("");
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
 		;
 	}
 	
@@ -217,9 +262,8 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-		.andDo(print())
+//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.idExistFl", is(Boolean.TRUE)))
 		;
 	}
 	
@@ -235,9 +279,9 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.idExistFl", is(Boolean.FALSE)))
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("중복된 아이디가 없습니다.")))
 		;
 	}
 	
@@ -261,9 +305,8 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-		.andDo(print())
+//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data.joinFl", is(Boolean.TRUE)))
 		;
 	}
 	

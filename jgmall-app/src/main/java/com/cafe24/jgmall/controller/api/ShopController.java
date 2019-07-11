@@ -25,7 +25,7 @@ public class ShopController {
 	/**
 	 * 상품 목록 조회
 	 */
-	@RequestMapping(value="/product/list/{keyword}/{pageNo}", method=RequestMethod.GET)
+	@RequestMapping(value="/product/list/kwd/{kwd}/pageNo/{pageNo}", method=RequestMethod.GET)
 	public JSONResult productList(
 			@RequestBody UserVo userVo,
 			HttpServletRequest request,

@@ -1,12 +1,14 @@
 package com.cafe24.jgmall.controller.api;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.jgmall.config.WebConfig;
-import com.cafe24.jgmall.vo.UserVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,14 +48,13 @@ public class OrderControllerTest {
 	 */
 	@Test
 	public void test_a_product_list() throws Exception {
-		// login request
-		UserVo vo = new UserVo();
-		vo.setUserId("jgseo");
-		vo.setPassword("!@jgseo450");
+		// request
+		Map<String, Object> reqMap = new HashMap<String, Object>();
+		reqMap.put("kwd", "");
 		
 		ResultActions resultActions = 
 		mockMvc
-		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		.perform(post("/api/shop/product/list/{pageNo}", "1").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(reqMap)));
 		
 		resultActions
 		.andExpect(status().isOk())
