@@ -3,8 +3,6 @@ package com.cafe24.jgmall.controller.api;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,7 +76,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-		.andDo(print())
+//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("아이디, 패스워드가 일치하지 않습니다.")))
 		;
@@ -102,7 +100,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-		.andDo(print())
+//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
@@ -199,7 +197,7 @@ public class UserControllerTest {
 		.andExpect(status().isBadRequest())
 //		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("패스워드는 숫자, 문자, 특수문자 각각 1개 이상 포함해야합니다.")))
+		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
 		;
 	}
 	
@@ -304,18 +302,197 @@ public class UserControllerTest {
 		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
 //		.andDo(print())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
 	
 	/**
 	 * 회원가입 검증
+	 * 1) 아이디
 	 */
+	@Test
+	public void test_join_valid_1() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo안3");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * 회원가입 검증
+	 * 2) 패스워드
+	 */
+	@Test
+	public void test_join_valid_2() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo3");
+		vo.setPassword("!@1234450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * 회원가입 검증
+	 * 3) 이름
+	 */
+	@Test
+	public void test_join_valid_3() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo3");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장1규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("이름 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * 회원가입 검증
+	 * 4) 가입일
+	 */
+	@Test
+	public void test_join_valid_4() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo3");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("2019120710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("가입일 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * 회원가입 검증
+	 * 5) 휴대번호
+	 */
+	@Test
+	public void test_join_valid_5() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo3");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("010411256736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("휴대번호 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * 회원가입 검증
+	 * 6) 성별
+	 */
+	@Test
+	public void test_join_valid_6() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo3");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("E");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isBadRequest())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("성별 형식이 맞지 않습니다.")))
+		;
+	}
 	
 	/**
 	 * 회원가입 아이디 중복체크
+	 * : 중복 아이디 존재
 	 */
-	
+	@Test
+	public void test_join_valid_id_exist_true() throws Exception {
+		UserVo vo = new UserVo();
+		vo.setUserId("jgseo");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(0);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+		.andExpect(status().isOk())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
 }

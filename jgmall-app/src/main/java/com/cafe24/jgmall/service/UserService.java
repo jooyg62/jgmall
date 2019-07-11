@@ -15,7 +15,6 @@ public class UserService {
 			userVo.setTelNum("01041156736");
 			userVo.setGender("M");
 			userVo.setAge(27);
-			userVo.setDelFl("N");
 		} else {
 			return null;
 		}
