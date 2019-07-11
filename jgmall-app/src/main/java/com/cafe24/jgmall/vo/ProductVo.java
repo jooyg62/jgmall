@@ -1,5 +1,8 @@
 package com.cafe24.jgmall.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductVo {
 	String productNm;
 	String sellFl;
@@ -14,6 +17,7 @@ public class ProductVo {
 	String addPrc;
 	Integer optionOrd;
 	Integer stockAmt;
+	List<FileVo> fileList = new ArrayList<FileVo>();
 	public String getProductNm() {
 		return productNm;
 	}
@@ -92,11 +96,17 @@ public class ProductVo {
 	public void setStockAmt(Integer stockAmt) {
 		this.stockAmt = stockAmt;
 	}
+	public List<FileVo> getFileList() {
+		return fileList;
+	}
+	public void setFileList(List<FileVo> fileList) {
+		this.fileList = fileList;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [productNm=" + productNm + ", sellFl=" + sellFl + ", displaySt=" + displaySt + ", regDate="
 				+ regDate + ", productDpt=" + productDpt + ", sellPrc=" + sellPrc + ", salePrc=" + salePrc
 				+ ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNm=" + optionNm + ", addPrc=" + addPrc
-				+ ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt + "]";
+				+ ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt + ", fileList=" + fileList + "]";
 	}
 }

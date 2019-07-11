@@ -3,30 +3,35 @@ package com.cafe24.jgmall.service;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.jgmall.vo.UserVo;
+import com.cafe24.jgmall.vo.api.ReqJoinVo;
+import com.cafe24.jgmall.vo.api.ReqLoginVo;
 
 @Service
 public class UserService {
 
-	public UserVo userLogin(UserVo userVo) {
-		if("jgseo".equals(userVo.getUserId()) && "!@jgseo450".equals(userVo.getPassword())) {
-			userVo.setNo(1L);
-			userVo.setUserNm("서장규");
-			userVo.setJoinDate("2019.07.10");
-			userVo.setTelNum("01041156736");
-			userVo.setGender("M");
-			userVo.setAge(27);
+	public UserVo userLogin(ReqLoginVo reqLoginVo) {
+		UserVo authUser = new UserVo();
+		if("jgseo".equals(reqLoginVo.getUserId()) && "!@jgseo450".equals(reqLoginVo.getPassword())) {
+			authUser.setNo(1L);
+			authUser.setUserId(reqLoginVo.getUserId());
+			authUser.setPassword(reqLoginVo.getPassword());
+			authUser.setUserNm("서장규");
+			authUser.setJoinDate("2019.07.10");
+			authUser.setTelNum("01041156736");
+			authUser.setGender("M");
+			authUser.setAge(27);
 		} else {
 			return null;
 		}
 		
-		return userVo;
+		return authUser;
 	}
 
 	public Boolean existId(String id) {
 		return "jgseo".equals(id) ? true : false;
 	}
 
-	public Boolean userJoin(UserVo userVo) {
+	public Boolean userJoin(ReqJoinVo reqJoinVo) {
 		return true;
 	}
 	

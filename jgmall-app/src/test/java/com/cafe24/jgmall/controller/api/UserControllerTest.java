@@ -3,6 +3,7 @@ package com.cafe24.jgmall.controller.api;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,6 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.jgmall.config.WebConfig;
 import com.cafe24.jgmall.vo.UserVo;
+import com.cafe24.jgmall.vo.api.ReqJoinVo;
+import com.cafe24.jgmall.vo.api.ReqLoginVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,7 +48,7 @@ public class UserControllerTest {
 	@Test
 	public void test_a_login_success() throws Exception {
 		// login request
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseo450");
 		
@@ -66,7 +69,7 @@ public class UserControllerTest {
 	@Test
 	public void test_b_login_fail() throws Exception {
 		// login request
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseo4508");
 		
@@ -90,7 +93,7 @@ public class UserControllerTest {
 	@Test
 	public void test_c_login_id_valid() throws Exception {
 		// 영문 시작
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("1jgse");
 		vo.setPassword("!@jgseo450");
 		
@@ -114,7 +117,7 @@ public class UserControllerTest {
 	@Test
 	public void test_c_login_id_valid_range() throws Exception {
 		// 5자 이상 15자 이하로 등록.
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgse");
 		vo.setPassword("!@jgseo450");
 		
@@ -138,7 +141,7 @@ public class UserControllerTest {
 	@Test
 	public void test_c_login_id_valid_comb() throws Exception {
 		// 영문과 숫자만 가능
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("d안녕g세요");
 		vo.setPassword("!@jgseo450");
 		
@@ -162,7 +165,7 @@ public class UserControllerTest {
 	@Test
 	public void test_login_id_valid_empty() throws Exception {
 		// 영문과 숫자만 가능
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("");
 		vo.setPassword("!@jgseo450");
 		
@@ -185,7 +188,7 @@ public class UserControllerTest {
 	@Test
 	public void test_login_pw_valid_comb() throws Exception {
 		// 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseowef");
 		
@@ -209,7 +212,7 @@ public class UserControllerTest {
 	@Test
 	public void test_d_login_pw_valid_range() throws Exception {	
 		// 8자~16자.
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseowef25402918409214");
 		
@@ -233,7 +236,7 @@ public class UserControllerTest {
 	@Test
 	public void test_login_pw_valid_empty() throws Exception {	
 		// 8자~16자.
-		UserVo vo = new UserVo();
+		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("");
 		
@@ -284,11 +287,29 @@ public class UserControllerTest {
 	}
 	
 	/**
+	 * id 형식 체크
+	 */
+	@Test
+	public void testExistIdValid() throws Exception {
+		// id 중복 존재 x
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/user/exist/{id}", "jgse한3").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andExpect(status().isOk())
+//		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("중복된 아이디가 없습니다.")))
+		;
+	}
+	
+	/**
 	 * 회원가입: 성공
 	 */
 	@Test
 	public void test_f_join() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장규");
@@ -314,7 +335,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void test_join_valid_1() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo안3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장규");
@@ -341,7 +362,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void test_join_valid_2() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@1234450");
 		vo.setUserNm("서장규");
@@ -368,7 +389,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void test_join_valid_3() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장1규");
@@ -395,7 +416,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void test_join_valid_4() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장규");
@@ -422,7 +443,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void test_join_valid_5() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장규");
@@ -449,7 +470,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void test_join_valid_6() throws Exception {
-		UserVo vo = new UserVo();
+		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장규");
@@ -471,13 +492,13 @@ public class UserControllerTest {
 	}
 	
 	/**
-	 * 회원가입 아이디 중복체크
-	 * : 중복 아이디 존재
+	 * 회원가입 검증
+	 * 6) 나이
 	 */
 	@Test
-	public void test_join_valid_id_exist_true() throws Exception {
-		UserVo vo = new UserVo();
-		vo.setUserId("jgseo");
+	public void test_join_valid_8() throws Exception {
+		ReqJoinVo vo = new ReqJoinVo();
+		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
 		vo.setUserNm("서장규");
 		vo.setJoinDate("20190710");
@@ -490,8 +511,35 @@ public class UserControllerTest {
 		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 //		.andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("나이 형식이 맞지 않습니다.")))
+		;
+	}
+	
+	/**
+	 * 회원가입 아이디 중복체크
+	 * : 중복 아이디 존재
+	 */
+	@Test
+	public void test_join_valid_id_exist_true() throws Exception {
+		ReqJoinVo vo = new ReqJoinVo();
+		vo.setUserId("jgseo");
+		vo.setPassword("!@jgseo450");
+		vo.setUserNm("서장규");
+		vo.setJoinDate("20190710");
+		vo.setTelNum("01041156736");
+		vo.setGender("M");
+		vo.setAge(27);
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions
+//		.andDo(print())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
