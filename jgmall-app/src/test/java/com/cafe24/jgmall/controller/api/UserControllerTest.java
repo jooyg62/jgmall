@@ -271,4 +271,8 @@ public class UserControllerTest {
 	 * 회원가입 검증
 	 */
 	
+	/**
+	 * 회원가입 아이디 중복체크
+	 */
+	
 }

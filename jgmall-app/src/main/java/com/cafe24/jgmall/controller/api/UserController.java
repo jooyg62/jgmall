@@ -106,6 +106,7 @@ public class UserController {
 		
 		ResJoinVo resJoinVo = new ResJoinVo();
 		resJoinVo.setJoinFl(Boolean.FALSE);
+		resJoinVo.setIdExistFl(Boolean.FALSE);
 		
 		// Validation
 		String idRegex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{4,14}$";
@@ -143,7 +144,8 @@ public class UserController {
 		Boolean result = userService.existId(userVo.getUserId());
 		
 		if(result) {
-			return JSONResult.success("아이디 중복");
+			resJoinVo.setIdExistFl(Boolean.TRUE);
+			return JSONResult.success(resJoinVo);
 		}
 		
 		// 사용자 등록
