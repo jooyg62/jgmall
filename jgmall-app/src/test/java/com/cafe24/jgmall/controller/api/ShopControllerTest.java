@@ -1,8 +1,8 @@
 package com.cafe24.jgmall.controller.api;
 
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -10,15 +10,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -26,13 +26,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.cafe24.jgmall.config.WebConfig;
-import com.cafe24.jgmall.vo.FileVo;
-import com.cafe24.jgmall.vo.PageVo;
-import com.cafe24.jgmall.vo.ProductVo;
+import com.cafe24.jgmall.vo.UserVo;
 import com.cafe24.jgmall.vo.api.ReqProductListVo;
-import com.cafe24.jgmall.vo.api.ResProductInfo;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +39,9 @@ import com.google.gson.Gson;
 @WebAppConfiguration
 public class ShopControllerTest {
 	private MockMvc mockMvc;
+	private UserVo authUser;
+	private MockHttpSession session;
+	private MockHttpServletRequest request;
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -49,7 +51,31 @@ public class ShopControllerTest {
 		mockMvc = MockMvcBuilders.
 			webAppContextSetup(webApplicationContext).
 			build();
+		
+		authUser = new UserVo();
+		authUser.setNo(1L);
+		authUser.setUserId("jgseo");
+		authUser.setPassword("1234");
+		authUser.setUserNm("서장규");
+		authUser.setJoinDate("20190710");
+		authUser.setTelNum("01041156736");
+		authUser.setGender("M");
+		authUser.setAge(27);
+		
+		session = new MockHttpSession();
+		session.setAttribute("authUser", authUser);
+		
+		request = new MockHttpServletRequest();
+		request.setSession(session);
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 	}
+	
+	@After
+	public void clear() {
+		session.clearAttributes();
+		session = null;
+	}
+	
 	
 	/**
 	 * 상품 목록 조회
@@ -156,6 +182,48 @@ public class ShopControllerTest {
 		resultActions
 		.andDo(print())
 		.andExpect(status().isNotFound())
+		;
+	}
+	
+	/**
+	 * 장바구니 내역 조회(회원)
+	 * case 1. 성공
+	 */
+	@Test
+	public void testGetBasketProductList() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/shop/basket/product/list").session(session).contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.productNm", is("오리인형")))
+		.andExpect(jsonPath("$.data.sellPrc", is(10300)))
+		.andExpect(jsonPath("$.data.salePrc", is(0)))
+		.andExpect(jsonPath("$.data.optionFl", is("N")))
+		.andExpect(jsonPath("$.data.optionNm", is("")))
+		.andExpect(jsonPath("$.data.addPrc", is(0)))
+		.andExpect(jsonPath("$.data.stockAmt", is(3)))
+		.andExpect(jsonPath("$.data.imgType", is("T")))
+		.andExpect(jsonPath("$.data.saveUrl", is("/images/oridoll.jpg")))
+		;
+	}
+	
+	/**
+	 * 장바구니 내역 조회(회원)
+	 * case 2. 세션정보 없을 경우.
+	 */
+	@Test
+	public void testGetBasketProductListNoneSession() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/shop/basket/product/list").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isBadRequest())
 		;
 	}
 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import com.cafe24.jgmall.service.ShopService;
 import com.cafe24.jgmall.vo.PageVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
+import com.cafe24.jgmall.vo.api.ResBasketProdcutListVo;
 import com.cafe24.jgmall.vo.api.ResProductInfo;
 import com.cafe24.jgmall.vo.api.ResProductListVo;
 
@@ -96,15 +98,20 @@ public class ShopController {
 	}
 	
 	@ApiOperation(value="장바구니내역조회")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="kwd", value="kwd: 검색 키워드", required=true, dataType="int", defaultValue=""),
-		@ApiImplicitParam(name="pageNo", value="pageNo: 페이지 번호", required=true, dataType="string", defaultValue="")
-	})
 	@GetMapping(value="/basket/product/list")
 	public ResponseEntity<JSONResult> getBastket(
-			@RequestBody UserVo userVo) {
+			HttpServletRequest request) {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
+		if(authUser == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("세션 정보가 없음."));
+		}
+		
+		ResBasketProdcutListVo response = shopService.getBasketProductList(authUser.getNo());
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(response));
 	}
 	
 	@ApiOperation(value="장바구니상품삭제")

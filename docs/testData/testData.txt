@@ -3,7 +3,7 @@
   "userId": "jgseo",
   "password": "1234",
   "userNm": "서장규",
-  "joinDate": "2019.07.10",
+  "joinDate": "20190710",
   "telNum": "01041156736",
   "gender": "M",
   "age": 27,
@@ -69,6 +69,19 @@
 		extNm:
 		delFl:
 	}]
+}
+
+* 장바구니 내역
+{
+	productNm:"오리인형",
+	sellPrc:10300,
+	salePrc:0,
+	optionFl:"N",
+	optionNm:"",
+	addPrc: 0,
+	stockAmt:3,
+	imgType: "T",
+	saveUrl: "/images/oridoll.jpg"
 }
 
 

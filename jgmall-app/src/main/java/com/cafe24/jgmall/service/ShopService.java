@@ -9,6 +9,7 @@ import com.cafe24.jgmall.vo.FileVo;
 import com.cafe24.jgmall.vo.PageVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
+import com.cafe24.jgmall.vo.api.ResBasketProdcutListVo;
 import com.cafe24.jgmall.vo.api.ResProductInfo;
 
 @Service
@@ -97,9 +98,34 @@ public class ShopService {
 		return resProductInfo;
 	}
 
+	/**
+	 * 상품 담기
+	 * @param no
+	 * @return
+	 */
 	public Boolean addProductInBasket(Long no) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	/**
+	 * 장바구니 조회
+	 * @param no
+	 * @return
+	 */
+	public ResBasketProdcutListVo getBasketProductList(Long no) {
+		ResBasketProdcutListVo result = new ResBasketProdcutListVo();
+		result.setAddPrc(0);
+		result.setImgType("T");
+		result.setOptionFl("N");
+		result.setOptionNm("");
+		result.setProductNm("오리인형");
+		result.setSalePrc(0);
+		result.setSaveUrl("/images/oridoll.jpg");
+		result.setSellPrc(10300);
+		result.setStockAmt(3);
+		
+		return result;
 	}
 	
 }
