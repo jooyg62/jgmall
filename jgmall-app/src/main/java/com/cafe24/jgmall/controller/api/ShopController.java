@@ -1,8 +1,6 @@
 package com.cafe24.jgmall.controller.api;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +21,12 @@ import com.cafe24.jgmall.service.ShopService;
 import com.cafe24.jgmall.vo.PageVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
+import com.cafe24.jgmall.vo.api.ResProductInfo;
+import com.cafe24.jgmall.vo.api.ResProductListVo;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  *	상품, 장바구니 
@@ -34,72 +38,82 @@ public class ShopController {
 	@Autowired
 	ShopService shopService;
 	
-	/**
-	 * 상품 목록 조회
-	 */
-	@GetMapping(value="/api/shop/product/list/{pageNo}")
+	@ApiOperation(value="상품목록조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="kwd", value="kwd: 검색 키워드", required=true, dataType="int", defaultValue=""),
+		@ApiImplicitParam(name="pageNo", value="pageNo: 페이지 번호", required=true, dataType="string", defaultValue="")
+	})
+	@GetMapping(value="/product/list/{pageNo}")
 	public ResponseEntity<JSONResult> productList(
 			@PathVariable int pageNo,
-			@RequestParam String kwd) {
+			@RequestParam(value="kwd", required=true, defaultValue="") String kwd) {
 		
 		// 상품 리스트 가져오기
-		List<ProductVo> productVo = shopService.getProductList(pageNo, kwd);
+		List<ProductVo> productList = shopService.getProductList(pageNo, kwd);
 		
 		// 페이징 처리
 		PageVo pageVo = shopService.getPagingData(pageNo);
 		
-		Map<String,Object> map = new HashMap<String, Object>();
+		ResProductListVo response = new ResProductListVo();
+		response.setPageVo(pageVo);
+		response.setProductList(productList);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(response));
+	}
+	
+	@ApiOperation(value="상품상세조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no", value="no: 상품 번호", required=true, dataType="long", defaultValue="")
+	})
+	@GetMapping(value="/product/{no}")
+	public ResponseEntity<JSONResult> productDetail(
+			@PathVariable Long no) {
+		
+		// 상품 상세
+		ResProductInfo productList = shopService.getProductInfo(no);
+		
+		if(productList == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("존재하지 않는 상품입니다."));
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productList));
+	}
+	
+	@ApiOperation(value="장바구니담기")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no", value="no: 상품 번호", required=true, dataType="long", defaultValue="")
+	})
+	@PostMapping(value="/basket/product/set/{no}")
+	public ResponseEntity<JSONResult> setBastket(@PathVariable Long no) {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
 	
-	/**
-	 * 상품 상세 조회
-	 */
-	@GetMapping(value="/product/{no}")
-	public JSONResult productDetail(
-			@RequestBody UserVo userVo,
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		return JSONResult.success(null);
-	}
-	
-	/**
-	 * 장바구니 담기
-	 */
-	@PostMapping(value="/basket/set/product/{no}")
-	public JSONResult setBastket(
-			@RequestBody UserVo userVo,
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		return JSONResult.success(null);
-	}
-	
-	/**
-	 * 장바구니 내역 조회
-	 */
+	@ApiOperation(value="장바구니내역조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="kwd", value="kwd: 검색 키워드", required=true, dataType="int", defaultValue=""),
+		@ApiImplicitParam(name="pageNo", value="pageNo: 페이지 번호", required=true, dataType="string", defaultValue="")
+	})
 	@GetMapping(value="/basket/product/list")
-	public JSONResult getBastket(
+	public ResponseEntity<JSONResult> getBastket(
 			@RequestBody UserVo userVo,
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		return JSONResult.success(null);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
 	
-	/**
-	 * 장바구니 상품 삭제
-	 * : 단일, 여러개
-	 */
-	@DeleteMapping(value="/basket/delete/product")
-	public JSONResult deleteBastket(
+	@ApiOperation(value="장바구니상품삭제")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no", value="kwd: 검색 키워드", required=true, dataType="long", defaultValue=""),
+	})
+	@DeleteMapping(value="/basket/{no}")
+	public ResponseEntity<JSONResult> deleteBastket(
 			@RequestBody UserVo userVo,
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		return JSONResult.success(null);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
 	
 }

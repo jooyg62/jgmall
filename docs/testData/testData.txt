@@ -46,4 +46,29 @@
 	}
 }
 
+* 상품 상세 정보
+{
+	productNm:"오리인형"
+	sellFl:"N"
+	displaySt:"진열중"
+	regDate:"20190411"
+	productDpt:"이건 오리인형이야!"
+	sellPrc:"10300"
+	salePrc:""
+	optionFl:"N"
+	deleteFl:"N"
+	optionNm:""
+	addPrc:""
+	optionOrd:""
+	stockAmt:""
+	fileList: [{
+		imgType:
+		oriFileNm:
+		saveFileName:
+		saveUrl:
+		extNm:
+		delFl:
+	}]
+}
+
 

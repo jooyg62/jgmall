@@ -9,6 +9,7 @@ import com.cafe24.jgmall.vo.FileVo;
 import com.cafe24.jgmall.vo.PageVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
+import com.cafe24.jgmall.vo.api.ResProductInfo;
 
 @Service
 public class ShopService {
@@ -77,8 +78,23 @@ public class ShopService {
 	 *	상품리스트 페이징 처리 
 	 */
 	public PageVo getPagingData(int pageNo) {
-		
 		return null;
+	}
+
+	/**
+	 * 상품 상세
+	 * @param no
+	 * @return
+	 */
+	public ResProductInfo getProductInfo(Long no) {
+		ResProductInfo resProductInfo = new ResProductInfo();
+		resProductInfo.setProductNm("오리인형");
+		
+		if(no == 9999999L) {
+			return null;
+		}
+		
+		return resProductInfo;
 	}
 	
 }

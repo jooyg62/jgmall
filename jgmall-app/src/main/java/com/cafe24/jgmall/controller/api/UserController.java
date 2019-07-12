@@ -5,16 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,11 +42,11 @@ public class UserController {
 	@PostMapping(value="/login")
 	public ResponseEntity<JSONResult> login(
 			@RequestBody @Valid ReqLoginVo loginVo,
-			BindingResult bindResult,
+			BindingResult bindingResult,
 			HttpServletRequest request) throws JsonProcessingException {
 		
-		if(bindResult.hasErrors()) {
-			List<ObjectError> allErrors = bindResult.getAllErrors();
+		if(bindingResult.hasErrors()) {
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
 			for(ObjectError error : allErrors) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
@@ -74,8 +70,8 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="id", value="id: 유저 아이디", required=true, dataType="string", defaultValue="")
 	})
-	@GetMapping(value="/exist/{id}")
-	public ResponseEntity<JSONResult> existId(@PathVariable String id) {
+	@GetMapping(value="/exist/{id:(?:[a-zA-Z]{1}[a-zA-Z0-9_]{4,14})}")
+	public ResponseEntity<JSONResult> existId(@PathVariable("id") String id) {
 		Boolean result = userService.existId(id);
 		
 		if(result) {
@@ -118,7 +114,7 @@ public class UserController {
 		Boolean joinResult = userService.userJoin(reqJoinVo);
 		
 		if(joinResult == false) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("예기치 못한 서버 에러."));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));

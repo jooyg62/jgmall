@@ -8,14 +8,10 @@ import org.hibernate.validator.constraints.Length;
 
 
 public class ReqLoginVo {
-	@NotBlank
-	@Length(min=5, max=15, message="아이디는 5~15자 사이로 입력해주세요.")
-	@Pattern(regexp="^[a-zA-Z]{1}[a-zA-Z0-9_]*$", message="아이디 형식이 맞지 않습니다.")
+	@Pattern(regexp="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,14}$", message="아이디 형식이 맞지 않습니다.")
 	String userId;
 	
-	@NotBlank
-	@Length(min=8, max=16, message="패스워드 길이는 8~16자 입니다.")
-	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]*$", message="패스워드 형식이 맞지 않습니다.")
+	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$", message="패스워드 형식이 맞지 않습니다.")
 	String password;
 
 	public String getUserId() {

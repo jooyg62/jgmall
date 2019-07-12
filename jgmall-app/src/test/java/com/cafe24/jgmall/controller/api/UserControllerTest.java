@@ -21,11 +21,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.jgmall.config.WebConfig;
-import com.cafe24.jgmall.vo.UserVo;
 import com.cafe24.jgmall.vo.api.ReqJoinVo;
 import com.cafe24.jgmall.vo.api.ReqLoginVo;
 import com.google.gson.Gson;
 
+@SuppressWarnings("unused")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=WebConfig.class)
 @WebAppConfiguration
@@ -46,7 +46,7 @@ public class UserControllerTest {
 	 * 로그인 성공
 	 */
 	@Test
-	public void test_a_login_success() throws Exception {
+	public void testLoginSuccess() throws Exception {
 		// login request
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
@@ -58,7 +58,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
@@ -67,7 +67,7 @@ public class UserControllerTest {
 	 * 아이디, 패스워드 불일치 
 	 */
 	@Test
-	public void test_b_login_fail() throws Exception {
+	public void testLoginNotMatched() throws Exception {
 		// login request
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
@@ -79,7 +79,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("아이디, 패스워드가 일치하지 않습니다.")))
 		;
@@ -91,7 +90,7 @@ public class UserControllerTest {
 	 *	1) 영문 시작
 	 */
 	@Test
-	public void test_c_login_id_valid() throws Exception {
+	public void testLoginIdValid() throws Exception {
 		// 영문 시작
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("1jgse");
@@ -103,7 +102,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
@@ -115,7 +113,7 @@ public class UserControllerTest {
 	 *  2) 5자 이상 15자 이하로 등록.
 	 */
 	@Test
-	public void test_c_login_id_valid_range() throws Exception {
+	public void testLoginIdValidRange() throws Exception {
 		// 5자 이상 15자 이하로 등록.
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgse");
@@ -127,9 +125,9 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("아이디는 5~15자 사이로 입력해주세요.")))
+		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
 	}
 	
@@ -139,7 +137,7 @@ public class UserControllerTest {
 	 *  3) 영문과 숫자만 가능
 	 */
 	@Test
-	public void test_c_login_id_valid_comb() throws Exception {
+	public void testLoginIdValidChar() throws Exception {
 		// 영문과 숫자만 가능
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("d안녕g세요");
@@ -151,7 +149,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
@@ -163,7 +160,7 @@ public class UserControllerTest {
 	 *  빈값 체크
 	 */
 	@Test
-	public void test_login_id_valid_empty() throws Exception {
+	public void testLoginIdValidEmpty() throws Exception {
 		// 영문과 숫자만 가능
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("");
@@ -175,7 +172,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		;
 	}
@@ -186,7 +182,7 @@ public class UserControllerTest {
 	 *  1) 숫자, 문자, 특수문자 각각 1개 이상 포함
 	 */
 	@Test
-	public void test_login_pw_valid_comb() throws Exception {
+	public void testLoginPwValidChar() throws Exception {
 		// 최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
@@ -198,7 +194,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
 		;
@@ -210,7 +205,7 @@ public class UserControllerTest {
 	 *  2) 8자~16자.
 	 */
 	@Test
-	public void test_d_login_pw_valid_range() throws Exception {	
+	public void testLoginPwValidRange() throws Exception {	
 		// 8자~16자.
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
@@ -222,9 +217,8 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("패스워드 길이는 8~16자 입니다.")))
+		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
 		;
 	}
 	
@@ -234,7 +228,7 @@ public class UserControllerTest {
 	 *  빈값 체크
 	 */
 	@Test
-	public void test_login_pw_valid_empty() throws Exception {	
+	public void testLoginPwValidEmpty() throws Exception {	
 		// 8자~16자.
 		ReqLoginVo vo = new ReqLoginVo();
 		vo.setUserId("jgseo");
@@ -246,7 +240,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		;
 	}
@@ -255,7 +248,7 @@ public class UserControllerTest {
 	 * id 중복 체크
 	 */
 	@Test
-	public void test_e_exist_id_true() throws Exception {
+	public void testExistIdTrue() throws Exception {
 		// id 중복 존재
 		ResultActions resultActions = 
 		mockMvc
@@ -263,7 +256,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
@@ -272,7 +264,7 @@ public class UserControllerTest {
 	 * id 중복 체크
 	 */
 	@Test
-	public void test_e_exist_id_false() throws Exception {
+	public void testExistIdFalse() throws Exception {
 		// id 중복 존재 x
 		ResultActions resultActions = 
 		mockMvc
@@ -280,7 +272,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("중복된 아이디가 없습니다.")))
 		;
@@ -288,19 +279,16 @@ public class UserControllerTest {
 	
 	/**
 	 * id 형식 체크
+	 * : 잘못된 id 형식
 	 */
 	@Test
 	public void testExistIdValid() throws Exception {
-		// id 중복 존재 x
 		ResultActions resultActions = 
 		mockMvc
 		.perform(get("/api/user/exist/{id}", "jgse한3").contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
-		.andExpect(status().isOk())
-//		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.message", is("중복된 아이디가 없습니다.")))
+		.andExpect(status().isNotFound())
 		;
 	}
 	
@@ -308,7 +296,7 @@ public class UserControllerTest {
 	 * 회원가입: 성공
 	 */
 	@Test
-	public void test_f_join() throws Exception {
+	public void testJoinSuccess() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
@@ -323,7 +311,6 @@ public class UserControllerTest {
 		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-//		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
@@ -334,7 +321,7 @@ public class UserControllerTest {
 	 * 1) 아이디
 	 */
 	@Test
-	public void test_join_valid_1() throws Exception {
+	public void testJoinIdValidChar() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo안3");
 		vo.setPassword("!@jgseo450");
@@ -350,7 +337,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("아이디 형식이 맞지 않습니다.")))
 		;
@@ -361,7 +348,7 @@ public class UserControllerTest {
 	 * 2) 패스워드
 	 */
 	@Test
-	public void test_join_valid_2() throws Exception {
+	public void testJoinPwValidLength() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@1234450");
@@ -377,7 +364,6 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("패스워드 형식이 맞지 않습니다.")))
 		;
@@ -388,7 +374,7 @@ public class UserControllerTest {
 	 * 3) 이름
 	 */
 	@Test
-	public void test_join_valid_3() throws Exception {
+	public void testJoinNameValidChar() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
@@ -404,7 +390,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("이름 형식이 맞지 않습니다.")))
 		;
@@ -415,7 +401,7 @@ public class UserControllerTest {
 	 * 4) 가입일
 	 */
 	@Test
-	public void test_join_valid_4() throws Exception {
+	public void testJoinRegDateValidLength() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
@@ -431,7 +417,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("가입일 형식이 맞지 않습니다.")))
 		;
@@ -442,7 +428,7 @@ public class UserControllerTest {
 	 * 5) 휴대번호
 	 */
 	@Test
-	public void test_join_valid_5() throws Exception {
+	public void testJoinTelNumValidLength() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
@@ -458,7 +444,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("휴대번호 형식이 맞지 않습니다.")))
 		;
@@ -469,7 +455,7 @@ public class UserControllerTest {
 	 * 6) 성별
 	 */
 	@Test
-	public void test_join_valid_6() throws Exception {
+	public void testJoinGenderValidChar() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
@@ -485,7 +471,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("성별 형식이 맞지 않습니다.")))
 		;
@@ -496,7 +482,7 @@ public class UserControllerTest {
 	 * 6) 나이
 	 */
 	@Test
-	public void test_join_valid_8() throws Exception {
+	public void testJoinAgeValidZero() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo3");
 		vo.setPassword("!@jgseo450");
@@ -512,7 +498,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isBadRequest())
-//		.andDo(print())
+
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.message", is("나이 형식이 맞지 않습니다.")))
 		;
@@ -523,7 +509,7 @@ public class UserControllerTest {
 	 * : 중복 아이디 존재
 	 */
 	@Test
-	public void test_join_valid_id_exist_true() throws Exception {
+	public void testJoinIdExsitIsTrue() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseo450");
@@ -538,7 +524,7 @@ public class UserControllerTest {
 		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-//		.andDo(print())
+
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
