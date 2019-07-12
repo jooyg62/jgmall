@@ -127,5 +127,9 @@ public class ShopService {
 		
 		return result;
 	}
+
+	public Boolean removeProductInBasket(Long no) {
+		return true;
+	}
 	
 }

@@ -118,11 +118,23 @@ public class ShopController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="no", value="kwd: 검색 키워드", required=true, dataType="long", defaultValue=""),
 	})
-	@DeleteMapping(value="/basket/{no}")
+	@DeleteMapping(value="/basket/product/{no}")
 	public ResponseEntity<JSONResult> deleteBastket(
-			@RequestBody UserVo userVo,
-			HttpServletRequest request,
-			HttpServletResponse response) {
+			@PathVariable Long no,
+			HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
+		if(authUser == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("세션 정보가 없음."));
+		}
+		
+		// 상품 삭제
+		Boolean result = shopService.removeProductInBasket(no);
+		if(result == false) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}

@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -224,6 +225,23 @@ public class ShopControllerTest {
 		resultActions
 		.andDo(print())
 		.andExpect(status().isBadRequest())
+		;
+	}
+	
+	/**
+	 * 장바구니 상품 삭제
+	 * case 1. 성공
+	 */
+	@Test
+	public void testDeleteBasketProduct() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(delete("/api/shop/basket/product/{no}", 1).session(session).contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
 	
