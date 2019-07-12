@@ -96,5 +96,10 @@ public class ShopService {
 		
 		return resProductInfo;
 	}
+
+	public Boolean addProductInBasket(Long no) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

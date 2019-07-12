@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -108,23 +109,53 @@ public class ShopControllerTest {
 	}
 	
 	/**
+	 * 상품 상세 조회
+	 * case 3. 잘못된 no 요청.
+	 * : 404 NOT FOUND
+	 */
+	@Test
+	public void testBadReqeustPathProductInfo() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/shop/product/{no}", "99안9녕9").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isNotFound())
+		;
+	}
+	
+	/**
 	 * 상품 장바구니 담기
 	 * case 1. 성공
 	 */
-	@Ignore
 	@Test
 	public void testBasketSetProduct() throws Exception {
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/shop/basket/product/set/{no}", "1").contentType(MediaType.APPLICATION_JSON));
-		
-		ResProductInfo response = new ResProductInfo();
+		.perform(post("/api/shop/basket/product/set/{no}", "1").contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data", is(response)))
+		;
+	}
+	
+	/**
+	 * 상품 장바구니 담기
+	 * case 2. 잘못된 no 요청.
+	 * : 404 NOT FOUND
+	 */
+	@Test
+	public void testBadReqeustBasketSetProduct() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(post("/api/shop/basket/product/set/{no}", "1안녕abc3").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isNotFound())
 		;
 	}
 	

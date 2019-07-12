@@ -86,6 +86,12 @@ public class ShopController {
 	@PostMapping(value="/basket/product/set/{no}")
 	public ResponseEntity<JSONResult> setBastket(@PathVariable Long no) {
 		
+		// 상품 등록
+		Boolean result = shopService.addProductInBasket(no);
+		if(result == false) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
+		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
 	
@@ -96,9 +102,7 @@ public class ShopController {
 	})
 	@GetMapping(value="/basket/product/list")
 	public ResponseEntity<JSONResult> getBastket(
-			@RequestBody UserVo userVo,
-			HttpServletRequest request,
-			HttpServletResponse response) {
+			@RequestBody UserVo userVo) {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
