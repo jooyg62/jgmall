@@ -59,11 +59,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("아이디, 패스워드가 일치하지 않습니다."));
 		}
 		
-		// 세션 처리
-		HttpSession session = request.getSession(true);
-		session.setAttribute("authUser", authUser);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(authUser));
 	}
 	
 	@ApiOperation(value="아이디 중복체크")

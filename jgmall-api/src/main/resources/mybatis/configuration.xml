@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<typeAliases>
+		<typeAlias alias="resadminloginvo" type="com.cafe24.jgmall.admin.vo.api.ResAdminLoginVo"/>
+		<typeAlias alias="reqadminloginvo" type="com.cafe24.jgmall.admin.vo.api.ReqAdminLoginVo"/>
+    </typeAliases>
+	<mappers>
+		<mapper resource="mybatis/mappers/admin.xml" />
+	</mappers>
 </configuration>

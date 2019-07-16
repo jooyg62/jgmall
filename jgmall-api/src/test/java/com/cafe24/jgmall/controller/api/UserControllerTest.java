@@ -57,8 +57,8 @@ public class UserControllerTest {
 		.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
+		.andDo(print())
 		.andExpect(status().isOk())
-
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}

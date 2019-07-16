@@ -14,7 +14,6 @@ public class UserService {
 		if("jgseo".equals(reqLoginVo.getUserId()) && "!@jgseo450".equals(reqLoginVo.getPassword())) {
 			authUser.setNo(1L);
 			authUser.setUserId(reqLoginVo.getUserId());
-			authUser.setPassword(reqLoginVo.getPassword());
 			authUser.setUserNm("서장규");
 			authUser.setJoinDate("2019.07.10");
 			authUser.setTelNum("01041156736");
