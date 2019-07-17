@@ -7,7 +7,6 @@
 			select 
 				no as no,
 				user_id as userId,
-				user_pw as password, 
 				to_char(login_dt, 'YYYYMMDD') as loginDt
 			from tadm0001
 			where user_id = #{userId}

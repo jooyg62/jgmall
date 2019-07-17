@@ -1,4 +1,4 @@
-package com.cafe24.jgmall.admin.controller.api;
+package com.cafe24.jgmall.controller.api;
 
 import java.util.List;
 
@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cafe24.jgmall.admin.service.AdminService;
-import com.cafe24.jgmall.admin.vo.api.ReqAdminLoginVo;
-import com.cafe24.jgmall.admin.vo.api.ResAdminLoginVo;
-import com.cafe24.jgmall.controller.api.JSONResult;
+import com.cafe24.jgmall.service.AdminService;
 import com.cafe24.jgmall.utils.JgmallUtils;
+import com.cafe24.jgmall.vo.api.ReqAdminLoginVo;
+import com.cafe24.jgmall.vo.api.ResAdminLoginVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.swagger.annotations.ApiOperation;

@@ -1,11 +1,11 @@
-package com.cafe24.jgmall.admin.service;
+package com.cafe24.jgmall.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cafe24.jgmall.admin.repository.AdminDao;
-import com.cafe24.jgmall.admin.vo.api.ReqAdminLoginVo;
-import com.cafe24.jgmall.admin.vo.api.ResAdminLoginVo;
+import com.cafe24.jgmall.repository.AdminDao;
+import com.cafe24.jgmall.vo.api.ReqAdminLoginVo;
+import com.cafe24.jgmall.vo.api.ResAdminLoginVo;
 
 @Service
 public class AdminService {

@@ -2,10 +2,14 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="resadminloginvo" type="com.cafe24.jgmall.admin.vo.api.ResAdminLoginVo"/>
-		<typeAlias alias="reqadminloginvo" type="com.cafe24.jgmall.admin.vo.api.ReqAdminLoginVo"/>
+		<typeAlias alias="uservo" type="com.cafe24.jgmall.vo.UserVo"/>
+		<typeAlias alias="reqjoinvo" type="com.cafe24.jgmall.vo.api.ReqJoinVo"/>
+		<typeAlias alias="resadminloginvo" type="com.cafe24.jgmall.vo.api.ResAdminLoginVo"/>
+		<typeAlias alias="reqadminloginvo" type="com.cafe24.jgmall.vo.api.ReqAdminLoginVo"/>
+		<typeAlias alias="resuserboardvo" type="com.cafe24.jgmall.vo.api.ResAdminUserBoardVo"/>
     </typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/admin.xml" />
+		<mapper resource="mybatis/mappers/user.xml" />
 	</mappers>
 </configuration>

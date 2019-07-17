@@ -1,4 +1,4 @@
-package com.cafe24.jgmall.admin.vo.api;
+package com.cafe24.jgmall.vo.api;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

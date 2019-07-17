@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	
+	<select id="getUserStatistics" resultType="resuserboardvo" >
+		<![CDATA[
+			select
+				(select count(*) from tcst0001 where to_char(join_dt, 'YYYYMMDD') = to_char(now(), 'YYYYMMDD')) as joinTodayCount,
+				(select count(*) from tcst0001 where del_yn = 'N') as totalUserCount
+		]]>
+	</select>
+	
+	<select id="getUserList" resultType="uservo" >
+		<![CDATA[
+			select 
+				no as no,
+				user_id as userId,
+				user_nm as userNm,
+				tel_num as telNum,
+				to_char(join_dt, 'YYYYMMDD') as joinDate,
+				gender as gender,
+				age as age
+			from tcst0001
+			where del_yn ='N'
+		]]>
+	</select>
+	
+	<insert id="insertUser" parameterType="reqjoinvo">
+		<![CDATA[
+			insert into
+				tcst0001(user_id, password, user_nm, join_dt, tel_num, gender, age, del_yn) 
+			values (#{userId}, #{password}, #{userNm}, #{joinDate}, #{telNum}, #{gender}, #{age}, 'N')
+		]]>
+	</insert>
+	
+</mapper>

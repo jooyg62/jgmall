@@ -1,13 +1,18 @@
 package com.cafe24.jgmall.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cafe24.jgmall.repository.UserDao;
 import com.cafe24.jgmall.vo.UserVo;
 import com.cafe24.jgmall.vo.api.ReqJoinVo;
 import com.cafe24.jgmall.vo.api.ReqLoginVo;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	UserDao userDao;
 
 	public UserVo userLogin(ReqLoginVo reqLoginVo) {
 		UserVo authUser = new UserVo();
@@ -31,7 +36,8 @@ public class UserService {
 	}
 
 	public Boolean userJoin(ReqJoinVo reqJoinVo) {
-		return true;
+		int result = userDao.insertUserInfo(reqJoinVo);
+		return 1 == result;
 	}
 	
 }

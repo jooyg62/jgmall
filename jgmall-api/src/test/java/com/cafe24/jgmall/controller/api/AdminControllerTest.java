@@ -1,4 +1,4 @@
-package com.cafe24.jgmall.admin.controller.api;
+package com.cafe24.jgmall.controller.api;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,13 +19,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.jgmall.BootApp;
-import com.cafe24.jgmall.admin.vo.api.ReqAdminLoginVo;
+import com.cafe24.jgmall.vo.api.ReqAdminLoginVo;
 import com.google.gson.Gson;
 
 @SuppressWarnings("unused")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {BootApp.class})
-
 public class AdminControllerTest {
 	private MockMvc mockMvc;
 	
@@ -49,12 +48,14 @@ public class AdminControllerTest {
 		vo.setUserId("jgseo");
 		vo.setPassword("!@jgseo450");
 		
+		System.out.println("body=" + new Gson().toJson(vo));
+		
 		ResultActions resultActions = 
 		mockMvc
 		.perform(post("/api/admin/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
-//		//.andDo(print())
+		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
