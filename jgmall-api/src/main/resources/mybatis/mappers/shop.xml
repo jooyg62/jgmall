@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shop">
+	
+	<insert id="insert" parameterType="reqadminregistproductvo">
+		<![CDATA[
+			insert into tpdt0001(prd_nm, sel_fl, display_st, reg_dt, prd_dpt, sel_prc, sale_prc, opt_fl, del_fl)
+			values (#{productNm}, #{sellFl}, #{displaySt}, now(), #{productDpt}, #{sellPrc}, #{salePrc}, #{optionFl}, 'N');
+		]]>
+	</insert>
+	
+	<select id="selectProductList" resultType="productvo">
+		<![CDATA[
+			select 
+				prd_nm as productNm,
+				sel_fl as sellFl,
+				display_st as displaySt,
+				to_char(reg_dt, 'YYYY-MM-DD') as regDate,
+				prd_dpt as productDpt,
+				sel_prc as sellPrc,
+				sale_prc as salePrc,
+				opt_fl as optionFl
+			from tpdt0001
+			where del_fl = 'N'
+		]]>
+	</select>
+	
+</mapper>

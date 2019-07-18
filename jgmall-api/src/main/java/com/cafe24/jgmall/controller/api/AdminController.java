@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.jgmall.service.AdminService;
+import com.cafe24.jgmall.utils.JgmallMsg;
 import com.cafe24.jgmall.utils.JgmallUtils;
 import com.cafe24.jgmall.vo.api.ReqAdminLoginVo;
 import com.cafe24.jgmall.vo.api.ResAdminLoginVo;
@@ -44,7 +45,7 @@ public class AdminController {
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
 			StringBuilder sb = new StringBuilder();
 			for(ObjectError error : allErrors) {
-				String message = jgmallUtils.getmessage(error.getCodes()[0]);
+				String message = jgmallUtils.getMessage(error.getCodes()[0], error.getDefaultMessage());
 				sb.append(message+"\n");
 			}
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(sb.toString()));
@@ -54,7 +55,7 @@ public class AdminController {
 		ResAdminLoginVo resAdminLoginVo = adminService.adminLogin(reqAdminLoginVo);
 		
 		if(resAdminLoginVo == null) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail(jgmallUtils.getmessage("api.login.fail.notmatched")));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail(jgmallUtils.getMessage("api.login.fail.notmatched", JgmallMsg.UNDEFINED_MSG.getMessage())));
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(resAdminLoginVo));

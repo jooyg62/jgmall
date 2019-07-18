@@ -11,9 +11,9 @@ public class JgmallUtils {
 	@Autowired
 	private MessageSource messageSource;
 	
-	public String getmessage(String code) {
+	public String getMessage(String code, String defaultMsg) {
 		String resultMessage =
-				messageSource.getMessage(code, null, JgmallMsg.UNDEFINED_MSG.getMessage(), LocaleContextHolder.getLocale());
+				messageSource.getMessage(code, null, defaultMsg, LocaleContextHolder.getLocale());
 		return resultMessage;
 	}
 }
