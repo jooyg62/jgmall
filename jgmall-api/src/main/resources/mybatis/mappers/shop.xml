@@ -25,4 +25,22 @@
 		]]>
 	</select>
 	
+	<select id="selectProductDetail" parameterType="long" resultType="productvo">
+		<![CDATA[
+			select 
+				prd_nm as productNm,
+				sel_fl as sellFl,
+				display_st as displaySt,
+				to_char(reg_dt, 'YYYY-MM-DD') as regDate,
+				prd_dpt as productDpt,
+				sel_prc as sellPrc,
+				sale_prc as salePrc,
+				opt_fl as optionFl
+			from tpdt0001
+			where del_fl = 'N'
+			  and no = #{productNo}
+			
+		]]>
+	</select>
+	
 </mapper>

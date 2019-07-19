@@ -25,4 +25,9 @@ public class AdminShopDao {
 		return productList;
 	}
 
+	public ProductVo selectProductDetail(Long productNo) {
+		ProductVo productVo = sqlSession.selectOne("shop.selectProductDetail", productNo);
+		return productVo;
+	}
+
 }

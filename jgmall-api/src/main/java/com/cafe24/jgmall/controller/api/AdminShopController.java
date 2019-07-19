@@ -11,17 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.jgmall.service.AdminShopService;
-import com.cafe24.jgmall.service.AdminUserService;
 import com.cafe24.jgmall.utils.JgmallUtils;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
-import com.cafe24.jgmall.vo.api.ResAdminUserBoardVo;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -68,6 +67,20 @@ public class AdminShopController {
 		List<ProductVo> productList = adminShopService.getProductList();
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productList));
+	}
+	
+	@ApiOperation(value="관리자상품상세조회")
+	@GetMapping(value="/product/{productNo}")
+	public ResponseEntity<JSONResult> getProductDetail(
+			@PathVariable Long productNo) {
+		
+		ProductVo productVo = adminShopService.getProductDetail(productNo);
+		
+		if(productVo == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("존재하지 않는 상품입니다."));
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
 	}
 	
 }

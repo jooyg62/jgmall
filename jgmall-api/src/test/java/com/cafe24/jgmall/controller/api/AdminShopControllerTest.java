@@ -44,6 +44,7 @@ public class AdminShopControllerTest {
 	
 	/**
 	 * 관리자 상품 등록
+	 * Case 1) 성공
 	 */
 	@Test
 	@Rollback(true)
@@ -72,6 +73,7 @@ public class AdminShopControllerTest {
 	
 	/**
 	 * 관리자 상품 리스트 조회
+	 * Case 1) 성공
 	 */
 	@Test
 	public void testGetProductListSuccess() throws Exception {
@@ -83,6 +85,42 @@ public class AdminShopControllerTest {
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
+	
+	/**
+	 * 관리자 상품 리스트 조회
+	 * Case 1) 성공
+	 */
+	@Test
+	public void testGetProductDetailSuccess() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/admin/shop/product/{productNo}", 1).contentType(MediaType.APPLICATION_JSON));
+
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.productNm", is("오리신발")))
+		;
+	}
+	
+	/**
+	 * 관리자 상품 리스트 조회
+	 * Case 2) 실패 : 존재하지 않는 상품번호 조회
+	 * Status 400, result fail 
+	 */
+	@Test
+	public void testGetProductDetailFailNotExistProduct() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/admin/shop/product/{productNo}", 900099).contentType(MediaType.APPLICATION_JSON));
+
+		resultActions
+		.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
 		;
 	}
 	

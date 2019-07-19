@@ -24,5 +24,10 @@ public class AdminShopService {
 		List<ProductVo> productList = adminShopDao.selectProductList();
 		return productList;
 	}
+
+	public ProductVo getProductDetail(Long productNo) {
+		ProductVo productVo = adminShopDao.selectProductDetail(productNo);
+		return productVo;
+	}
 	
 }
