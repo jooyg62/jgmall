@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductVo {
+	Long productNo;
 	String productNm;
 	String sellFl;
 	String displaySt;
@@ -96,6 +97,12 @@ public class ProductVo {
 	public void setStockAmt(Integer stockAmt) {
 		this.stockAmt = stockAmt;
 	}
+	public Long getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(Long productNo) {
+		this.productNo = productNo;
+	}
 	public List<FileVo> getFileList() {
 		return fileList;
 	}
@@ -104,9 +111,10 @@ public class ProductVo {
 	}
 	@Override
 	public String toString() {
-		return "ProductVo [productNm=" + productNm + ", sellFl=" + sellFl + ", displaySt=" + displaySt + ", regDate="
-				+ regDate + ", productDpt=" + productDpt + ", sellPrc=" + sellPrc + ", salePrc=" + salePrc
-				+ ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNm=" + optionNm + ", addPrc=" + addPrc
-				+ ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt + ", fileList=" + fileList + "]";
+		return "ProductVo [productNo=" + productNo + ", productNm=" + productNm + ", sellFl=" + sellFl + ", displaySt="
+				+ displaySt + ", regDate=" + regDate + ", productDpt=" + productDpt + ", sellPrc=" + sellPrc
+				+ ", salePrc=" + salePrc + ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNm="
+				+ optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt
+				+ ", fileList=" + fileList + "]";
 	}
 }

@@ -43,4 +43,29 @@
 		]]>
 	</select>
 	
+	<update id="deleteProduct" parameterType="long" >
+		<![CDATA[
+			update tpdt0001
+				set del_fl='Y'
+			  where no=#{productNo}
+		]]>
+	</update>
+	
+	<update id="updateProduct" parameterType="productvo" >
+		<![CDATA[
+			update
+				tpdt0001
+			set 
+				prd_nm=#{productNm},
+				sel_fl=#{sellFl},
+				display_st=#{displaySt},
+				prd_dpt=#{productDpt},
+				sel_prc=#{sellPrc},
+				sale_prc=#{salePrc},
+				opt_fl=#{optionFl}
+			where no=#{productNo}
+		]]>
+	</update>
+	
+	
 </mapper>

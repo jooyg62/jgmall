@@ -2,6 +2,8 @@ package com.cafe24.jgmall.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,16 @@ public class AdminShopService {
 	public ProductVo getProductDetail(Long productNo) {
 		ProductVo productVo = adminShopDao.selectProductDetail(productNo);
 		return productVo;
+	}
+
+	public Boolean removeProduct(Long productNo) {
+		int result = adminShopDao.deleteProduct(productNo);
+		return 1 == result;
+	}
+
+	public Boolean modifyProduct(ProductVo productVo) {
+		int result = adminShopDao.updateProduct(productVo);
+		return 1 == result;
 	}
 	
 }

@@ -30,4 +30,14 @@ public class AdminShopDao {
 		return productVo;
 	}
 
+	public int deleteProduct(Long productNo) {
+		int result = sqlSession.update("shop.deleteProduct", productNo);
+		return result;
+	}
+
+	public int updateProduct(ProductVo productVo) {
+		int result = sqlSession.update("shop.updateProduct", productVo);
+		return result;
+	}
+
 }
