@@ -3,10 +3,11 @@ package com.cafe24.jgmall.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cafe24.jgmall.repository.ShopDao;
 import com.cafe24.jgmall.vo.FileVo;
-import com.cafe24.jgmall.vo.PageVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
 import com.cafe24.jgmall.vo.api.ResBasketProdcutListVo;
@@ -14,6 +15,9 @@ import com.cafe24.jgmall.vo.api.ResProductInfo;
 
 @Service
 public class ShopService {
+	
+	@Autowired
+	ShopDao shopDao;
 
 	public UserVo userLogin(UserVo userVo) {
 		if("jgseo".equals(userVo.getUserId()) && "!@jgseo450".equals(userVo.getPassword())) {
@@ -37,49 +41,9 @@ public class ShopService {
 	/**
 	 *	상품 리스트 가져오기 
 	 */
-	public List<ProductVo> getProductList(int pageNo, String kwd) {
-		List<ProductVo> productList = new ArrayList<ProductVo>();
-		
-		ProductVo productVo1 = new ProductVo();
-		productVo1.setProductNm("오리발");
-		productVo1.setSellFl("Y");
-		productVo1.setDisplaySt("Y");
-		productVo1.setRegDate("20180702");
-		productVo1.setSellPrc(5300);
-		productVo1.setSalePrc(3500);
-		
-		FileVo fileVo1 = new FileVo();
-		fileVo1.setSaveUrl("/images/orifoot.jpg");
-		
-		List<FileVo> fileList = productVo1.getFileList();
-		fileList.add(fileVo1);
-		
-		
-		ProductVo productVo2 = new ProductVo();
-		productVo1.setProductNm("오리인형");
-		productVo1.setSellFl("N");
-		productVo1.setDisplaySt("Y");
-		productVo1.setRegDate("20190411");
-		productVo1.setSellPrc(10300);
-		productVo1.setSalePrc(0);
-		
-		FileVo fileVo2 = new FileVo();
-		fileVo1.setSaveUrl("/images/orifoot.jpg");
-		
-		List<FileVo> fileList2 = productVo1.getFileList();
-		fileList2.add(fileVo2);
-		
-		productList.add(productVo1);
-		productList.add(productVo2);
-		
+	public List<ProductVo> getProductList() {
+		List<ProductVo> productList = shopDao.selectProductList();
 		return productList;
-	}
-
-	/**
-	 *	상품리스트 페이징 처리 
-	 */
-	public PageVo getPagingData(int pageNo) {
-		return null;
 	}
 
 	/**

@@ -33,4 +33,27 @@
 		]]>
 	</insert>
 	
+	<select id="login" parameterType="reqloginvo" resultType="uservo" >
+		<![CDATA[
+			select
+				user_id as userId,
+				password as password,
+				user_nm as userNm,
+				join_dt as joinDate,
+				tel_num as telNum,
+				gender as gender,
+				age as age
+			from tcst0001
+			where del_yn = 'N'
+			  and user_id = #{userId}
+			  and password = #{password}
+		]]>
+	</select>
+	
+	<select id="selectUserId" parameterType="string" resultType="int" >
+		<![CDATA[
+			select count(*) from tcst0001 where user_id = #{userId}
+		]]>
+	</select>
+	
 </mapper>

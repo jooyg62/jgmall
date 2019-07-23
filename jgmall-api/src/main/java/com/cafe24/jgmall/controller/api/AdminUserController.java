@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.swagger.annotations.ApiOperation;
 
-@RestController("UserController")
+@RestController("adminUserApiController")
 @RequestMapping("/api/admin/user")
 public class AdminUserController {
 	

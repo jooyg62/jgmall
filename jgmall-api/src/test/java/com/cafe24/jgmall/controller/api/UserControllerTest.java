@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.jgmall.BootApp;
@@ -28,9 +30,9 @@ import com.cafe24.jgmall.vo.api.ReqJoinVo;
 import com.cafe24.jgmall.vo.api.ReqLoginVo;
 import com.google.gson.Gson;
 
-@SuppressWarnings("unused")
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class UserControllerTest {
 	private MockMvc mockMvc;
 	
@@ -258,6 +260,7 @@ public class UserControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
+		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
@@ -298,6 +301,7 @@ public class UserControllerTest {
 	 * 회원가입: 성공
 	 */
 	@Test
+	@Rollback(true)
 	public void testJoinSuccess() throws Exception {
 		ReqJoinVo vo = new ReqJoinVo();
 		vo.setUserId("jgseo");
@@ -308,12 +312,15 @@ public class UserControllerTest {
 		vo.setGender("M");
 		vo.setAge(27);
 		
+		System.out.println(new Gson().toJson(vo));
+		
 		ResultActions resultActions = 
 		mockMvc
 		.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
 		.andExpect(status().isOk())
+		.andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}

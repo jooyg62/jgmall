@@ -40,4 +40,14 @@ public class AdminShopDao {
 		return result;
 	}
 
+	public List<ProductVo> selectProductStockList() {
+		List<ProductVo> productList = sqlSession.selectList("shop.selectProductStockList", null);
+		return productList;
+	}
+
+	public int updateProductStock(ProductVo productVo) {
+		int result = sqlSession.update("shop.updateProductStock", productVo);
+		return result;
+	}
+
 }

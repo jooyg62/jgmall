@@ -10,11 +10,9 @@ public class OrderVo {
 	String orderDate;
 	String orderPW;
 	String userNo;
-	String returnFl;
-	String productNo;
-	Integer orderAmt;
 	String orderSt;
-	Integer payPrc;
+	Integer totPayPrc;
+	String orderUserId;
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -69,41 +67,29 @@ public class OrderVo {
 	public void setUserNo(String userNo) {
 		this.userNo = userNo;
 	}
-	public String getReturnFl() {
-		return returnFl;
-	}
-	public void setReturnFl(String returnFl) {
-		this.returnFl = returnFl;
-	}
-	public String getProductNo() {
-		return productNo;
-	}
-	public void setProductNo(String productNo) {
-		this.productNo = productNo;
-	}
-	public Integer getOrderAmt() {
-		return orderAmt;
-	}
-	public void setOrderAmt(Integer orderAmt) {
-		this.orderAmt = orderAmt;
-	}
 	public String getOrderSt() {
 		return orderSt;
 	}
 	public void setOrderSt(String orderSt) {
 		this.orderSt = orderSt;
 	}
-	public Integer getPayPrc() {
-		return payPrc;
+	public Integer getTotPayPrc() {
+		return totPayPrc;
 	}
-	public void setPayPrc(Integer payPrc) {
-		this.payPrc = payPrc;
+	public void setTotPayPrc(Integer totPayPrc) {
+		this.totPayPrc = totPayPrc;
+	}
+	public String getOrderUserId() {
+		return orderUserId;
+	}
+	public void setOrderUserId(String orderUserId) {
+		this.orderUserId = orderUserId;
 	}
 	@Override
 	public String toString() {
 		return "OrderVo [orderNo=" + orderNo + ", orderNm=" + orderNm + ", addrGb=" + addrGb + ", addr=" + addr
 				+ ", telNum=" + telNum + ", memo=" + memo + ", orderDate=" + orderDate + ", orderPW=" + orderPW
-				+ ", userNo=" + userNo + ", returnFl=" + returnFl + ", productNo=" + productNo + ", orderAmt="
-				+ orderAmt + ", orderSt=" + orderSt + ", payPrc=" + payPrc + "]";
+				+ ", userNo=" + userNo + ", orderSt=" + orderSt + ", totPayPrc=" + totPayPrc + ", orderUserId="
+				+ orderUserId + "]";
 	}
 }

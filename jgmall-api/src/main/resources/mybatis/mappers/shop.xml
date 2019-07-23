@@ -12,6 +12,7 @@
 	<select id="selectProductList" resultType="productvo">
 		<![CDATA[
 			select 
+				no as productNo,
 				prd_nm as productNm,
 				sel_fl as sellFl,
 				display_st as displaySt,
@@ -39,7 +40,6 @@
 			from tpdt0001
 			where del_fl = 'N'
 			  and no = #{productNo}
-			
 		]]>
 	</select>
 	
@@ -63,6 +63,38 @@
 				sel_prc=#{sellPrc},
 				sale_prc=#{salePrc},
 				opt_fl=#{optionFl}
+			where no=#{productNo}
+		]]>
+	</update>
+	
+	<select id="selectProductStockList" resultType="productvo">
+		<![CDATA[
+			select 
+				no as productNo,
+				prd_nm as productNm,
+				sel_fl as sellFl,
+				display_st as displaySt,
+				to_char(reg_dt, 'YYYY-MM-DD') as regDate,
+				prd_dpt as productDpt,
+				sel_prc as sellPrc,
+				sale_prc as salePrc,
+				stock_amt as stockAmt,
+				stock_fl as stockFl,
+				opt_fl as optionFl
+			from tpdt0001
+			where del_fl = 'N'
+		]]>
+	</select>
+	
+	<update id="updateProductStock" parameterType="productvo" >
+		<![CDATA[
+			update
+				tpdt0001
+			set 
+				sel_fl=#{sellFl},
+				display_st=#{displaySt},
+				stock_amt=#{stockAmt},
+				stock_fl=#{stockFl}
 			where no=#{productNo}
 		]]>
 	</update>

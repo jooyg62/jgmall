@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+	
+	<select id="selectOrderList" resultType="ordervo">
+		<![CDATA[
+			select
+				no as orderNo,
+				order_nm as orderNm,
+				addr_gb as addrGb,
+				addr as addr,
+				tel_num as telNum,
+				memo as memo,
+				order_dt as orderDate,
+				tot_pay_prc as totPayPrc,
+				(select user_id from tcst0001 where no = user_no) as orderUserId
+			from tcst0201
+			order by orderDate desc
+		]]>
+	</select>
+	
+	<select id="selectOrderProductList" parameterType="long" resultType="orderproductvo">
+		<![CDATA[
+			select 
+				ord_no as orderNo,
+				(select prd_nm from tpdt0001 where no = pdt_no) as productNm,
+				return_fl as returnFl,
+				ord_amt as orderAmt,
+				ord_st as orderSt,
+				pay_prc as payPrc,
+				pdt_opt_nm as productOptNm
+			from tcst0202
+			where ord_no = #{productNo}
+		]]>
+	</select>
+	
+</mapper>

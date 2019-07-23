@@ -15,24 +15,13 @@ public class UserService {
 	UserDao userDao;
 
 	public UserVo userLogin(ReqLoginVo reqLoginVo) {
-		UserVo authUser = new UserVo();
-		if("jgseo".equals(reqLoginVo.getUserId()) && "!@jgseo450".equals(reqLoginVo.getPassword())) {
-			authUser.setNo(1L);
-			authUser.setUserId(reqLoginVo.getUserId());
-			authUser.setUserNm("서장규");
-			authUser.setJoinDate("2019.07.10");
-			authUser.setTelNum("01041156736");
-			authUser.setGender("M");
-			authUser.setAge(27);
-		} else {
-			return null;
-		}
-		
-		return authUser;
+		UserVo userVo = userDao.login(reqLoginVo);
+		return userVo;
 	}
 
 	public Boolean existId(String id) {
-		return "jgseo".equals(id) ? true : false;
+		Boolean result = userDao.selectUserId(id);
+		return result;
 	}
 
 	public Boolean userJoin(ReqJoinVo reqJoinVo) {

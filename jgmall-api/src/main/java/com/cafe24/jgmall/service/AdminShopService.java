@@ -41,5 +41,15 @@ public class AdminShopService {
 		int result = adminShopDao.updateProduct(productVo);
 		return 1 == result;
 	}
+
+	public List<ProductVo> getProductStockList() {
+		List<ProductVo> productList = adminShopDao.selectProductStockList();
+		return productList;
+	}
+
+	public Boolean modifyProductStock(ProductVo productVo) {
+		int result = adminShopDao.updateProductStock(productVo);
+		return 1 == result;
+	}
 	
 }

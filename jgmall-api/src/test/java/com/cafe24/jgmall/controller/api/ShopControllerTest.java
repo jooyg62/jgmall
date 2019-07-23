@@ -15,32 +15,34 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.cafe24.jgmall.config.WebConfig;
+import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
 import com.cafe24.jgmall.vo.api.ReqProductListVo;
 import com.google.gson.Gson;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=WebConfig.class)
-@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
 public class ShopControllerTest {
 	private MockMvc mockMvc;
-	private UserVo authUser;
-	private MockHttpSession session;
-	private MockHttpServletRequest request;
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -50,45 +52,18 @@ public class ShopControllerTest {
 		mockMvc = MockMvcBuilders.
 			webAppContextSetup(webApplicationContext).
 			build();
-		
-		authUser = new UserVo();
-		authUser.setNo(1L);
-		authUser.setUserId("jgseo");
-		authUser.setPassword("1234");
-		authUser.setUserNm("서장규");
-		authUser.setJoinDate("20190710");
-		authUser.setTelNum("01041156736");
-		authUser.setGender("M");
-		authUser.setAge(27);
-		
-		session = new MockHttpSession();
-		session.setAttribute("authUser", authUser);
-		
-		request = new MockHttpServletRequest();
-		request.setSession(session);
-		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 	}
-	
-	@After
-	public void clear() {
-		session.clearAttributes();
-		session = null;
-	}
-	
 	
 	/**
 	 * 상품 목록 조회
-	 * : 키워드 검색 성공
+	 * 200, success
+	 * 성공
 	 */
-	@Ignore	// 구현 예정
 	@Test
 	public void testProductList() throws Exception {
-		ReqProductListVo request = new ReqProductListVo();
-		request.setKwd("오리");
-		
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/shop/product/list/{pageNo}", "1").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(request)));
+		.perform(get("/api/shop/product/list").contentType(MediaType.APPLICATION_JSON));
 
 		resultActions
 		.andDo(print())
@@ -192,7 +167,7 @@ public class ShopControllerTest {
 	public void testGetBasketProductList() throws Exception {
 		ResultActions resultActions = 
 		mockMvc
-		.perform(get("/api/shop/basket/product/list").session(session).contentType(MediaType.APPLICATION_JSON));
+		.perform(get("/api/shop/basket/product/list").contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andDo(print())
@@ -234,7 +209,7 @@ public class ShopControllerTest {
 	public void testDeleteBasketProduct() throws Exception {
 		ResultActions resultActions = 
 		mockMvc
-		.perform(delete("/api/shop/basket/product/{no}", 1).session(session).contentType(MediaType.APPLICATION_JSON));
+		.perform(delete("/api/shop/basket/product/{no}", 1).contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions
 		.andDo(print())

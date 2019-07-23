@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {BootApp.class})
+@SpringBootTest
 @Transactional
 public class AdminShopControllerTest {
 	private MockMvc mockMvc;
@@ -193,7 +194,7 @@ public class AdminShopControllerTest {
 	}
 	
 	/**
-	 * 관리자 상품삭제
+	 * 관리자 상품수정
 	 * Case 2) 실패 : 존재하지 않는 상품번호
 	 * Status 400, result fail 
 	 */
@@ -217,6 +218,53 @@ public class AdminShopControllerTest {
 		.andDo(print())
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+	
+	/**
+	 * 관리자 재고 리스트 조회
+	 * Case 1) 성공
+	 * Status 200, result success 
+	 */
+	@Test
+	public void testGetProductStockListSuccess() throws Exception {
+		ResultActions resultActions = 
+		mockMvc
+		.perform(get("/api/admin/shop/product/stock/list").contentType(MediaType.APPLICATION_JSON));
+
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
+	
+	/**
+	 * 관리자재고내역수정
+	 * Case 1) 성공
+	 * Status 200, result success
+	 */
+	@Ignore	// 현재 데이터 없음
+	@Test
+	@Rollback(true)
+	public void testModifyProductStockSuccess() throws Exception {
+		ProductVo request = new ProductVo();
+		request.setProductNo(1L);
+		request.setSellFl("Y");
+		request.setDisplaySt("Y");
+		request.setStockAmt(30);
+		request.setStockFl("N");
+		
+		System.out.println("body=" + new Gson().toJson(request));
+		
+		ResultActions resultActions = 
+		mockMvc
+		.perform(put("/api/admin/shop/product/stock").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(request)));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
 		;
 	}
 }

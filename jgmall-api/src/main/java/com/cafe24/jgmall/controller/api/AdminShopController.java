@@ -26,7 +26,7 @@ import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 
 import io.swagger.annotations.ApiOperation;
 
-@RestController("ShopController")
+@RestController("adminShopApiController")
 @RequestMapping("/api/admin/shop")
 public class AdminShopController {
 	
@@ -115,6 +115,40 @@ public class AdminShopController {
 		}
 		
 		Boolean result = adminShopService.modifyProduct(productVo);
+		
+		if(result != true) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("존재하지 않는 상품입니다."));
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+	}
+	
+	@ApiOperation(value="관리자재고리스트")
+	@GetMapping(value="/product/stock/list")
+	public ResponseEntity<JSONResult> getProductStock() {
+		
+		List<ProductVo> productVo = adminShopService.getProductStockList();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
+	}
+	
+	@ApiOperation(value="관리자재고내역수정")
+	@PutMapping(value="/product/stock")
+	public ResponseEntity<JSONResult> modifyProductStock(
+			@RequestBody @Valid ProductVo productVo,
+			BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
+			StringBuilder sb = new StringBuilder();
+			for(ObjectError error : allErrors) {
+				String message = jgmallUtils.getMessage(error.getCodes()[0], error.getDefaultMessage());
+				sb.append(message+"\n");
+			}
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(sb.toString()));
+		}
+		
+		Boolean result = adminShopService.modifyProductStock(productVo);
 		
 		if(result != true) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("존재하지 않는 상품입니다."));

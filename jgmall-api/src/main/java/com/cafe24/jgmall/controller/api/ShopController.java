@@ -43,22 +43,13 @@ public class ShopController {
 		@ApiImplicitParam(name="kwd", value="kwd: 검색 키워드", required=true, dataType="int", defaultValue=""),
 		@ApiImplicitParam(name="pageNo", value="pageNo: 페이지 번호", required=true, dataType="string", defaultValue="")
 	})
-	@GetMapping(value="/product/list/{pageNo}")
-	public ResponseEntity<JSONResult> productList(
-			@PathVariable int pageNo,
-			@RequestParam(value="kwd", required=true, defaultValue="") String kwd) {
+	@GetMapping(value="/product/list")
+	public ResponseEntity<JSONResult> productList() {
 		
 		// 상품 리스트 가져오기
-		List<ProductVo> productList = shopService.getProductList(pageNo, kwd);
+		List<ProductVo> productList = shopService.getProductList();
 		
-		// 페이징 처리
-		PageVo pageVo = shopService.getPagingData(pageNo);
-		
-		ResProductListVo response = new ResProductListVo();
-		response.setPageVo(pageVo);
-		response.setProductList(productList);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(response));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productList));
 	}
 	
 	@ApiOperation(value="상품상세조회")
