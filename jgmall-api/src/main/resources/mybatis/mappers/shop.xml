@@ -4,8 +4,8 @@
 	
 	<insert id="insert" parameterType="reqadminregistproductvo">
 		<![CDATA[
-			insert into tpdt0001(prd_nm, sel_fl, display_st, reg_dt, prd_dpt, sel_prc, sale_prc, opt_fl, del_fl)
-			values (#{productNm}, #{sellFl}, #{displaySt}, now(), #{productDpt}, #{sellPrc}, #{salePrc}, #{optionFl}, 'N');
+			insert into tpdt0001(prd_nm, sel_fl, display_st, reg_dt, prd_dpt, sel_prc, sale_prc, opt_fl, stock_amt, stock_fl, del_fl)
+			values (#{productNm}, #{sellFl}, #{displaySt}, now(), #{productDpt}, #{sellPrc}, #{salePrc}, #{optionFl}, 0, 'N', 'N')
 		]]>
 	</insert>
 	
@@ -20,7 +20,9 @@
 				prd_dpt as productDpt,
 				sel_prc as sellPrc,
 				sale_prc as salePrc,
-				opt_fl as optionFl
+				opt_fl as optionFl,
+				stock_fl as stockFl,
+				stock_amt as stockAmt
 			from tpdt0001
 			where del_fl = 'N'
 		]]>
@@ -36,7 +38,9 @@
 				prd_dpt as productDpt,
 				sel_prc as sellPrc,
 				sale_prc as salePrc,
-				opt_fl as optionFl
+				opt_fl as optionFl,
+				stock_fl as stockFl,
+				stock_amt as stockAmt
 			from tpdt0001
 			where del_fl = 'N'
 			  and no = #{productNo}
@@ -98,6 +102,35 @@
 			where no=#{productNo}
 		]]>
 	</update>
+	
+	<select id="selectBasketProductList" parameterType="long" resultType="basketproductvo">
+		<![CDATA[
+			select 
+				opt_no as optionNo,
+				pdt_amt as productAmt 
+			from tcst0301
+			where user_no = #{userNo}
+		]]>
+	</select>
+	
+	<select id="selectProductOptList" parameterType="long" resultType="productvo">
+		<![CDATA[
+			select 
+				A.no as productNo,
+				A.prd_nm as productNm,
+				A.prd_dpt as productDpt,
+				A.sel_prc as sellPrc,
+				A.sale_prc as salePrc,
+				B.add_prc as addPrc,
+				B.stock_amt as stockAmt,
+				B.stock_fl as stockFl
+			from tpdt0002 B
+			left outer join tpdt0001 A
+			on A.no = B.pdt_no
+			where A.del_fl = 'N'
+		]]>
+	</select>
+	
 	
 	
 </mapper>

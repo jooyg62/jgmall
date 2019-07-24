@@ -1,15 +1,13 @@
 package com.cafe24.jgmall.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.jgmall.repository.ShopDao;
-import com.cafe24.jgmall.vo.FileVo;
 import com.cafe24.jgmall.vo.ProductVo;
-import com.cafe24.jgmall.vo.UserVo;
 import com.cafe24.jgmall.vo.api.ResBasketProdcutListVo;
 import com.cafe24.jgmall.vo.api.ResProductInfo;
 
@@ -18,25 +16,6 @@ public class ShopService {
 	
 	@Autowired
 	ShopDao shopDao;
-
-	public UserVo userLogin(UserVo userVo) {
-		if("jgseo".equals(userVo.getUserId()) && "!@jgseo450".equals(userVo.getPassword())) {
-			userVo.setNo(1L);
-			userVo.setUserNm("서장규");
-			userVo.setJoinDate("2019.07.10");
-			userVo.setTelNum("010-4115-6736");
-			userVo.setGender("M");
-			userVo.setAge(27);
-		} else {
-			return null;
-		}
-		
-		return userVo;
-	}
-
-	public Boolean existId(String id) {
-		return "jgseo".equals(id) ? true : false;
-	}
 
 	/**
 	 *	상품 리스트 가져오기 
@@ -51,15 +30,9 @@ public class ShopService {
 	 * @param no
 	 * @return
 	 */
-	public ResProductInfo getProductInfo(Long no) {
-		ResProductInfo resProductInfo = new ResProductInfo();
-		resProductInfo.setProductNm("오리인형");
-		
-		if(no == 9999999L) {
-			return null;
-		}
-		
-		return resProductInfo;
+	public ProductVo getProductInfo(Long no) {
+		ProductVo productVo = shopDao.selectProductDetailInfo(no);
+		return productVo;
 	}
 
 	/**
@@ -77,19 +50,10 @@ public class ShopService {
 	 * @param no
 	 * @return
 	 */
-	public ResBasketProdcutListVo getBasketProductList(Long no) {
-		ResBasketProdcutListVo result = new ResBasketProdcutListVo();
-		result.setAddPrc(0);
-		result.setImgType("T");
-		result.setOptionFl("N");
-		result.setOptionNm("");
-		result.setProductNm("오리인형");
-		result.setSalePrc(0);
-		result.setSaveUrl("/images/oridoll.jpg");
-		result.setSellPrc(10300);
-		result.setStockAmt(3);
-		
-		return result;
+	@Transactional
+	public List<ProductVo> getBasketProductList(Long userNo) {
+		List<ProductVo> productList = shopDao.selectBasketProductList(userNo);
+		return productList;
 	}
 
 	public Boolean removeProductInBasket(Long no) {

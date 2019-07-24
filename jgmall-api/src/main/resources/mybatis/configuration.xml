@@ -5,6 +5,7 @@
 		<typeAlias alias="uservo" type="com.cafe24.jgmall.vo.UserVo"/>
 		<typeAlias alias="productvo" type="com.cafe24.jgmall.vo.ProductVo"/>
 		<typeAlias alias="ordervo" type="com.cafe24.jgmall.vo.OrderVo"/>
+		<typeAlias alias="basketproductvo" type="com.cafe24.jgmall.vo.BasketProductVo"/>
 		<typeAlias alias="orderproductvo" type="com.cafe24.jgmall.vo.OrderProductVo"/>
 		<typeAlias alias="reqjoinvo" type="com.cafe24.jgmall.vo.api.ReqJoinVo"/>
 		<typeAlias alias="reqloginvo" type="com.cafe24.jgmall.vo.api.ReqLoginVo"/>

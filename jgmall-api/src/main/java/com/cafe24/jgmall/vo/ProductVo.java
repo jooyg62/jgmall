@@ -18,6 +18,7 @@ public class ProductVo {
 	String addPrc;
 	Integer optionOrd;
 	Integer stockAmt;
+	Integer basketStockAmt;
 	String stockFl;
 	List<FileVo> fileList = new ArrayList<FileVo>();
 	public Long getProductNo() {
@@ -104,6 +105,12 @@ public class ProductVo {
 	public void setStockAmt(Integer stockAmt) {
 		this.stockAmt = stockAmt;
 	}
+	public Integer getBasketStockAmt() {
+		return basketStockAmt;
+	}
+	public void setBasketStockAmt(Integer basketStockAmt) {
+		this.basketStockAmt = basketStockAmt;
+	}
 	public String getStockFl() {
 		return stockFl;
 	}
@@ -121,7 +128,9 @@ public class ProductVo {
 		return "ProductVo [productNo=" + productNo + ", productNm=" + productNm + ", sellFl=" + sellFl + ", displaySt="
 				+ displaySt + ", regDate=" + regDate + ", productDpt=" + productDpt + ", sellPrc=" + sellPrc
 				+ ", salePrc=" + salePrc + ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNm="
-				+ optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt + ", stockFl="
-				+ stockFl + ", fileList=" + fileList + "]";
+				+ optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt
+				+ ", basketStockAmt=" + basketStockAmt + ", stockFl=" + stockFl + ", fileList=" + fileList + "]";
 	}
+	
+	
 }

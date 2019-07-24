@@ -61,13 +61,13 @@ public class ShopController {
 			@PathVariable Long no) {
 		
 		// 상품 상세
-		ResProductInfo productList = shopService.getProductInfo(no);
+		ProductVo productVo = shopService.getProductInfo(no);
 		
-		if(productList == null) {
+		if(productVo == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("존재하지 않는 상품입니다."));
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productList));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
 	}
 	
 	@ApiOperation(value="장바구니담기")
@@ -86,21 +86,14 @@ public class ShopController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
 	
-	@ApiOperation(value="장바구니내역조회")
-	@GetMapping(value="/basket/product/list")
+	@ApiOperation(value="회원장바구니내역조회")
+	@GetMapping(value="/basket/user/{userNo}")
 	public ResponseEntity<JSONResult> getBastket(
-			HttpServletRequest request) {
+			@PathVariable Long userNo) {
 		
-		HttpSession session = request.getSession();
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		List<ProductVo> productVo = shopService.getBasketProductList(userNo);
 		
-		if(authUser == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("세션 정보가 없음."));
-		}
-		
-		ResBasketProdcutListVo response = shopService.getBasketProductList(authUser.getNo());
-		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(response));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
 	}
 	
 	@ApiOperation(value="장바구니상품삭제")
