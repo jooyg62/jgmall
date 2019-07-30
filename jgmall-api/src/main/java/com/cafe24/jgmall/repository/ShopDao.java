@@ -17,9 +17,6 @@ public class ShopDao {
 	@Autowired
 	SqlSession sqlSession;
 	
-	@Autowired
-	SqlSessionFactory sqlSessionFactory;
-
 	public List<ProductVo> selectProductList() {
 		List<ProductVo> productList = sqlSession.selectList("shop.selectProductList", null);
 		return productList;
@@ -47,8 +44,8 @@ public class ShopDao {
 		return cnt;
 	}
 	
-	public int deleteBasketProduct(BasketProductVo basketProductVo) {
-		int cnt = sqlSession.insert("shop.deleteBasketProduct", basketProductVo);
+	public int deleteBasketProduct(Long basketVo) {
+		int cnt = sqlSession.update("shop.deleteBasketProduct", basketVo);
 		return cnt;
 	}
 

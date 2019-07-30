@@ -92,7 +92,7 @@ public class ShopController {
 			@RequestBody BasketProductVo basketProductVo) {
 		
 		// 상품 삭제
-		Boolean result = shopService.removeBasketProduct(basketProductVo);
+		Boolean result = shopService.removeBasketProduct(basketProductVo.getBasketNo());
 		if(result == false) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}

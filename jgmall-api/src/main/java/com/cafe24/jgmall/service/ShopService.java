@@ -60,8 +60,8 @@ public class ShopService {
 	 * @param basketProductVo
 	 * @return
 	 */
-	public Boolean removeBasketProduct(BasketProductVo basketProductVo) {
-		int cnt = shopDao.deleteBasketProduct(basketProductVo);
+	public Boolean removeBasketProduct(Long basketNo) {
+		int cnt = shopDao.deleteBasketProduct(basketNo);
 		return 1 == cnt;
 	}
 

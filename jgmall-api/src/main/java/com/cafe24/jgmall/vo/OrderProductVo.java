@@ -2,24 +2,25 @@ package com.cafe24.jgmall.vo;
 
 public class OrderProductVo {
 	Long orderNo;
-	Long productNo;
+	Long productOptNo;
 	String productNm;
 	String productOptNm;
 	String returnFl;
 	Integer orderAmt;
 	String orderSt;
 	Integer payPrc;
+	Long basketNo;
 	public Long getOrderNo() {
 		return orderNo;
 	}
 	public void setOrderNo(Long orderNo) {
 		this.orderNo = orderNo;
 	}
-	public Long getProductNo() {
-		return productNo;
+	public Long getProductOptNo() {
+		return productOptNo;
 	}
-	public void setProductNo(Long productNo) {
-		this.productNo = productNo;
+	public void setProductOptNo(Long productOptNo) {
+		this.productOptNo = productOptNo;
 	}
 	public String getProductNm() {
 		return productNm;
@@ -57,10 +58,16 @@ public class OrderProductVo {
 	public void setPayPrc(Integer payPrc) {
 		this.payPrc = payPrc;
 	}
+	public Long getBasketNo() {
+		return basketNo;
+	}
+	public void setBasketNo(Long basketNo) {
+		this.basketNo = basketNo;
+	}
 	@Override
 	public String toString() {
-		return "OrderDetailVo [orderNo=" + orderNo + ", productNo=" + productNo + ", productNm=" + productNm
+		return "OrderProductVo [orderNo=" + orderNo + ", productOptNo=" + productOptNo + ", productNm=" + productNm
 				+ ", productOptNm=" + productOptNm + ", returnFl=" + returnFl + ", orderAmt=" + orderAmt + ", orderSt="
-				+ orderSt + ", payPrc=" + payPrc + "]";
+				+ orderSt + ", payPrc=" + payPrc + ", basketNo=" + basketNo + "]";
 	}
 }

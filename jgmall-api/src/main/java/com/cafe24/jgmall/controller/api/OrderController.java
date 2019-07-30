@@ -1,15 +1,19 @@
 package com.cafe24.jgmall.controller.api;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.jgmall.service.OrderService;
+import com.cafe24.jgmall.vo.OrderVo;
+import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.UserVo;
 
 /**
@@ -25,30 +29,27 @@ public class OrderController {
 	/**
 	 * 주문 내역 확인
 	 */
-	@RequestMapping(value="/product/list", method=RequestMethod.GET)
-	public JSONResult checkOrderProduct(
-			@RequestBody UserVo userVo,
-			HttpServletRequest request,
-			HttpServletResponse response) {
+	@GetMapping(value="/product/list")
+	public ResponseEntity<JSONResult> checkOrderProduct(
+			@RequestBody UserVo userVo) {
 		
-		return JSONResult.success(null);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
 	
 	/**
 	 * 결제하기
 	 */
-	@RequestMapping(value="/pay", method=RequestMethod.POST)
-	public JSONResult payOrderProduct(
-			@RequestBody UserVo userVo,
-			HttpServletRequest request,
-			HttpServletResponse response) {
+	@PostMapping(value="/pay")
+	public ResponseEntity<JSONResult> payOrderProduct(
+			@RequestBody OrderVo orderVo) {
 		
-		return JSONResult.success(null);
+		// 상품 리스트 가져오기
+		Boolean result = orderService.payOrder(orderVo);
+		if(result == false) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
 	}
-	
-	/**
-	 * 선택한 상품 주문하기
-	 * : 단일, 리스트
-	 */
 	
 }

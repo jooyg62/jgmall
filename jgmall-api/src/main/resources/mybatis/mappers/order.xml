@@ -34,4 +34,18 @@
 		]]>
 	</select>
 	
+	<insert id="insertPayOrder" parameterType="ordervo" >
+		<![CDATA[
+			insert into tcst0201(order_nm, addr_gb, addr, tel_num, memo, order_dt, tot_pay_prc, del_fl, user_no)
+				values (#{orderNm}, #{addrGb}, #{addr}, #{telNum}, #{memo}, to_char(now(), 'YYYYMMDD'), #{totPayPrc}, 'N', #{userNo})
+		]]>
+	</insert>
+	
+	<insert id="insertPayOrderProductList" parameterType="orderproductvo" >
+		<![CDATA[
+			insert into tcst0202(ord_no, pdt_opt_no, return_fl, ord_amt, ord_st, pay_prc, pdt_opt_nm, del_fl)
+				values (#{orderNo}, #{productOptNo}, 'N', #{orderAmt}, 'A', #{payPrc}, #{productOptNm}, 'N')
+		]]>
+	</insert>
+	
 </mapper>

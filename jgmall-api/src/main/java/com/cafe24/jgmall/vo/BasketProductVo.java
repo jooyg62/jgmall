@@ -1,9 +1,16 @@
 package com.cafe24.jgmall.vo;
 
 public class BasketProductVo {
+	Long basketNo;
 	String userNo;
 	Integer optionNo;
 	Integer productAmt;
+	public Long getBasketNo() {
+		return basketNo;
+	}
+	public void setBasketNo(Long basketNo) {
+		this.basketNo = basketNo;
+	}
 	public String getUserNo() {
 		return userNo;
 	}
@@ -24,6 +31,7 @@ public class BasketProductVo {
 	}
 	@Override
 	public String toString() {
-		return "BasketProductVo [userNo=" + userNo + ", optionNo=" + optionNo + ", productAmt=" + productAmt + "]";
+		return "BasketProductVo [basketNo=" + basketNo + ", userNo=" + userNo + ", optionNo=" + optionNo
+				+ ", productAmt=" + productAmt + "]";
 	}
 }

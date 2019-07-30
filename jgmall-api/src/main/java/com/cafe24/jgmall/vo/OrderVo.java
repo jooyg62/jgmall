@@ -1,5 +1,8 @@
 package com.cafe24.jgmall.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderVo {
 	String orderNo;
 	String orderNm;
@@ -13,6 +16,7 @@ public class OrderVo {
 	String orderSt;
 	Integer totPayPrc;
 	String orderUserId;
+	List<OrderProductVo> orderProductVoList = new ArrayList<OrderProductVo>();
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -85,11 +89,17 @@ public class OrderVo {
 	public void setOrderUserId(String orderUserId) {
 		this.orderUserId = orderUserId;
 	}
+	public List<OrderProductVo> getOrderProductVoList() {
+		return orderProductVoList;
+	}
+	public void setOrderProductVoList(List<OrderProductVo> orderProductVoList) {
+		this.orderProductVoList = orderProductVoList;
+	}
 	@Override
 	public String toString() {
 		return "OrderVo [orderNo=" + orderNo + ", orderNm=" + orderNm + ", addrGb=" + addrGb + ", addr=" + addr
 				+ ", telNum=" + telNum + ", memo=" + memo + ", orderDate=" + orderDate + ", orderPW=" + orderPW
 				+ ", userNo=" + userNo + ", orderSt=" + orderSt + ", totPayPrc=" + totPayPrc + ", orderUserId="
-				+ orderUserId + "]";
+				+ orderUserId + ", orderProductVoList=" + orderProductVoList + "]";
 	}
 }

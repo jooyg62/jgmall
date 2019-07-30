@@ -156,13 +156,13 @@
 	
 	<insert id="insertBasketProduct" parameterType="basketproductvo">
 		<![CDATA[
-			insert into tcst0301(user_no, opt_no, pdt_amt) values (#{userNo}, #{optionNo}, #{productAmt})
+			insert into tcst0301(user_no, opt_no, pdt_amt, del_fl) values (#{userNo}, #{optionNo}, #{productAmt}, 'N')
 		]]>
 	</insert>
 	
-	<update id="deleteBasketProduct" parameterType="basketproductvo">
+	<update id="deleteBasketProduct" parameterType="long">
 		<![CDATA[
-			
+			update tcst0301 set del_fl='Y' where no = {basketNo}
 		]]>
 	</update>
 	
