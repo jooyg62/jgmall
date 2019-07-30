@@ -2,7 +2,6 @@ package com.cafe24.jgmall.controller.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.jgmall.service.AdminShopService;
 import com.cafe24.jgmall.utils.JgmallUtils;
 import com.cafe24.jgmall.vo.ProductVo;
-import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -39,7 +37,7 @@ public class AdminShopController {
 	@ApiOperation(value="관리자상품등록")
 	@PostMapping(value="/product")
 	public ResponseEntity<JSONResult> registProduct(
-			@RequestBody @Valid ReqAdminRegistProductVo reqAdminRegistProductVo,
+			@RequestBody @Valid ProductVo productVo,
 			BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()) {
@@ -51,8 +49,8 @@ public class AdminShopController {
 			}
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(sb.toString()));
 		}
-		
-		Boolean result = adminShopService.registProduct(reqAdminRegistProductVo);
+		System.out.println("productVo=" + productVo.toString());
+		Boolean result = adminShopService.registProduct(productVo);
 		
 		if(result == false) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));

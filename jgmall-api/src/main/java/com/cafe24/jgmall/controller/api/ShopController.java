@@ -2,9 +2,6 @@ package com.cafe24.jgmall.controller.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.jgmall.service.ShopService;
-import com.cafe24.jgmall.vo.PageVo;
+import com.cafe24.jgmall.vo.BasketProductVo;
 import com.cafe24.jgmall.vo.ProductVo;
-import com.cafe24.jgmall.vo.UserVo;
-import com.cafe24.jgmall.vo.api.ResBasketProdcutListVo;
-import com.cafe24.jgmall.vo.api.ResProductInfo;
-import com.cafe24.jgmall.vo.api.ResProductListVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -70,25 +63,9 @@ public class ShopController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
 	}
 	
-	@ApiOperation(value="장바구니담기")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="no", value="no: 상품 번호", required=true, dataType="long", defaultValue="")
-	})
-	@PostMapping(value="/basket/product/set/{no}")
-	public ResponseEntity<JSONResult> setBastket(@PathVariable Long no) {
-		
-		// 상품 등록
-		Boolean result = shopService.addProductInBasket(no);
-		if(result == false) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
-		}
-		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
-	}
-	
 	@ApiOperation(value="회원장바구니내역조회")
 	@GetMapping(value="/basket/user/{userNo}")
-	public ResponseEntity<JSONResult> getBastket(
+	public ResponseEntity<JSONResult> getBasket(
 			@PathVariable Long userNo) {
 		
 		List<ProductVo> productVo = shopService.getBasketProductList(userNo);
@@ -96,24 +73,26 @@ public class ShopController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
 	}
 	
-	@ApiOperation(value="장바구니상품삭제")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="no", value="kwd: 검색 키워드", required=true, dataType="long", defaultValue=""),
-	})
-	@DeleteMapping(value="/basket/product/{no}")
-	public ResponseEntity<JSONResult> deleteBastket(
-			@PathVariable Long no,
-			HttpServletRequest request) {
+	@ApiOperation(value="회원장바구니담기")
+	@PostMapping(value="/basket/product")
+	public ResponseEntity<JSONResult> registProductInBasket(
+			@RequestBody BasketProductVo basketProductVo) {
 		
-		HttpSession session = request.getSession();
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		
-		if(authUser == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("세션 정보가 없음."));
+		Boolean result = shopService.registBasketProduct(basketProductVo);
+		if(result == false) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+	}
+	
+	@ApiOperation(value="장바구니상품삭제")
+	@DeleteMapping(value="/basket/product")
+	public ResponseEntity<JSONResult> deleteBastket(
+			@RequestBody BasketProductVo basketProductVo) {
+		
 		// 상품 삭제
-		Boolean result = shopService.removeProductInBasket(no);
+		Boolean result = shopService.removeBasketProduct(basketProductVo);
 		if(result == false) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}

@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.jgmall.vo.OptionVo;
 import com.cafe24.jgmall.vo.ProductVo;
-import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 
 @Repository
 public class AdminShopDao {
@@ -15,8 +15,18 @@ public class AdminShopDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public int insert(ReqAdminRegistProductVo reqAdminRegistProductVo) {
-		int result = sqlSession.insert("shop.insert", reqAdminRegistProductVo);
+	public int insert(ProductVo productVo) {
+		int result = sqlSession.insert("shop.insert", productVo);
+		return result;
+	}
+	
+	public int insertOptionNm(OptionVo optionVo) {
+		int result = sqlSession.insert("shop.insertOptionNm", optionVo);
+		return result;
+	}
+	
+	public int insertOptionValue(OptionVo optionVo) {
+		int result = sqlSession.insert("shop.insertOptionValue", optionVo);
 		return result;
 	}
 

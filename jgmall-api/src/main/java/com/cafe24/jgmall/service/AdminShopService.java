@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.jgmall.repository.AdminShopDao;
+import com.cafe24.jgmall.vo.OptionVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 
@@ -17,9 +18,25 @@ public class AdminShopService {
 	@Autowired
 	private AdminShopDao adminShopDao;
 
-	public Boolean registProduct(ReqAdminRegistProductVo reqAdminRegistProductVo) {
-		int result = adminShopDao.insert(reqAdminRegistProductVo);
-		return 1 == result;
+	public Boolean registProduct(ProductVo productVo) {
+		// 1. 상품 등록
+		adminShopDao.insert(productVo);
+		
+		if("Y".equals(productVo.getOptionFl())) {
+			long lastInsertProductNo = productVo.getProductNo();
+			
+			// 2. 옵션명, 옵션값 등록
+			List<OptionVo> optionVoList = productVo.getOptionVoList();
+			for(int i=0; i < optionVoList.size(); i++) {
+				OptionVo optionVo = optionVoList.get(i);
+				optionVo.setOptionOrd(i+1);
+				optionVo.setProductNo(lastInsertProductNo);
+				adminShopDao.insertOptionNm(optionVo);
+				adminShopDao.insertOptionValue(optionVo);
+			}
+		}
+		
+		return true;
 	}
 
 	public List<ProductVo> getProductList() {

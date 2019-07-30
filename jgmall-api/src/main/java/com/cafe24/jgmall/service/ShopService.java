@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.jgmall.repository.ShopDao;
+import com.cafe24.jgmall.vo.BasketProductVo;
 import com.cafe24.jgmall.vo.ProductVo;
-import com.cafe24.jgmall.vo.api.ResBasketProdcutListVo;
-import com.cafe24.jgmall.vo.api.ResProductInfo;
 
 @Service
 public class ShopService {
@@ -36,16 +35,6 @@ public class ShopService {
 	}
 
 	/**
-	 * 상품 담기
-	 * @param no
-	 * @return
-	 */
-	public Boolean addProductInBasket(Long no) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	/**
 	 * 장바구니 조회
 	 * @param no
 	 * @return
@@ -56,8 +45,25 @@ public class ShopService {
 		return productList;
 	}
 
-	public Boolean removeProductInBasket(Long no) {
-		return true;
+	/**
+	 * 장바구니 담기
+	 * @param basketProductVo
+	 * @return
+	 */
+	public Boolean registBasketProduct(BasketProductVo basketProductVo) {
+		int cnt = shopDao.insertBasketProduct(basketProductVo);
+		return 1 == cnt;
 	}
+	
+	/**
+	 * 장바구니 삭제
+	 * @param basketProductVo
+	 * @return
+	 */
+	public Boolean removeBasketProduct(BasketProductVo basketProductVo) {
+		int cnt = shopDao.deleteBasketProduct(basketProductVo);
+		return 1 == cnt;
+	}
+
 	
 }

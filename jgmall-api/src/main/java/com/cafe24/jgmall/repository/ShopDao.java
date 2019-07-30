@@ -42,4 +42,14 @@ public class ShopDao {
 		return productList;
 	}
 
+	public int insertBasketProduct(BasketProductVo basketProductVo) {
+		int cnt = sqlSession.insert("shop.insertBasketProduct", basketProductVo);
+		return cnt;
+	}
+	
+	public int deleteBasketProduct(BasketProductVo basketProductVo) {
+		int cnt = sqlSession.insert("shop.deleteBasketProduct", basketProductVo);
+		return cnt;
+	}
+
 }

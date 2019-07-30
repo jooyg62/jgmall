@@ -2,11 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shop">
 	
-	<insert id="insert" parameterType="reqadminregistproductvo">
+	<insert id="insert" parameterType="productvo">
 		<![CDATA[
 			insert into tpdt0001(prd_nm, sel_fl, display_st, reg_dt, prd_dpt, sel_prc, sale_prc, opt_fl, stock_amt, stock_fl, del_fl)
 			values (#{productNm}, #{sellFl}, #{displaySt}, now(), #{productDpt}, #{sellPrc}, #{salePrc}, #{optionFl}, 0, 'N', 'N')
 		]]>
+		<selectKey keyProperty="productNo" resultType="long" order="AFTER">
+			<![CDATA[
+			select currval(pg_get_serial_sequence('tpdt0001','no'))
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertOptionNm" parameterType="optionvo">
+		<![CDATA[
+		insert into tpdt0101(opt_nm, opt_ord, pdt_no) values (#{optionNm}, #{optionOrd}, #{productNo})
+		]]>
+		<selectKey keyProperty="optionNmNo" resultType="long" order="AFTER">
+			<![CDATA[
+			select currval(pg_get_serial_sequence('tpdt0101','no'))
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertOptionValue" parameterType="optionvo">
+		insert into tpdt0102(opt_nm, opt_ord, opt_no) values 
+		<foreach collection="optionValueList" item="value" index="index" separator="," open="" close="">
+		(#{value}, #{index}+1, #{optionNmNo})
+		</foreach>
 	</insert>
 	
 	<select id="selectProductList" resultType="productvo">
@@ -131,6 +154,16 @@
 		]]>
 	</select>
 	
+	<insert id="insertBasketProduct" parameterType="basketproductvo">
+		<![CDATA[
+			insert into tcst0301(user_no, opt_no, pdt_amt) values (#{userNo}, #{optionNo}, #{productAmt})
+		]]>
+	</insert>
 	
+	<update id="deleteBasketProduct" parameterType="basketproductvo">
+		<![CDATA[
+			
+		]]>
+	</update>
 	
 </mapper>

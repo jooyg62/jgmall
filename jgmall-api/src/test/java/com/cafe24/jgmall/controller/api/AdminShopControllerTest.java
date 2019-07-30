@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,13 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.jgmall.BootApp;
+import com.cafe24.jgmall.vo.OptionVo;
 import com.cafe24.jgmall.vo.ProductVo;
 import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+//@Transactional
 public class AdminShopControllerTest {
 	private MockMvc mockMvc;
 	
@@ -50,16 +53,34 @@ public class AdminShopControllerTest {
 	 * Case 1) 성공
 	 */
 	@Test
-	@Rollback(true)
+//	@Rollback(true)
 	public void testRegistProductSuccess() throws Exception {
-		ReqAdminRegistProductVo request = new ReqAdminRegistProductVo();
+		ProductVo request = new ProductVo();
 		request.setProductNm("오리신발");
 		request.setSellFl("Y");
 		request.setDisplaySt("Y");
 		request.setProductDpt("겨울철 따뜻한 실내용 신발, 오리신발과 함께하세요.");
 		request.setSellPrc(27000);
 		request.setSalePrc(23500);
-		request.setOptionFl("N");
+		request.setOptionFl("Y");
+		
+		List<OptionVo> optionVoList = request.getOptionVoList();
+		optionVoList.add(new OptionVo());
+		optionVoList.add(new OptionVo());
+		
+		optionVoList.get(0).setOptionNm("색상");
+		optionVoList.get(1).setOptionNm("사이즈");
+		
+		List<String> optionValueList1 = optionVoList.get(0).getOptionValueList();
+		optionValueList1.add("Black");
+		optionValueList1.add("Red");
+		
+		List<String> optionValueList2 = optionVoList.get(1).getOptionValueList();
+		optionValueList2.add("230");
+		optionValueList2.add("240");
+		optionValueList2.add("250");
+		optionValueList2.add("260");
+		optionValueList2.add("270");
 		
 		System.out.println("body=" + new Gson().toJson(request));
 		
