@@ -1,7 +1,11 @@
 package com.cafe24.jgmall.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderProductVo {
 	Long orderNo;
+	Long productNo;
 	Long productOptNo;
 	String productNm;
 	String productOptNm;
@@ -10,11 +14,18 @@ public class OrderProductVo {
 	String orderSt;
 	Integer payPrc;
 	Long basketNo;
+	List<FileVo> fileVoList = new ArrayList<FileVo>();
 	public Long getOrderNo() {
 		return orderNo;
 	}
 	public void setOrderNo(Long orderNo) {
 		this.orderNo = orderNo;
+	}
+	public Long getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(Long productNo) {
+		this.productNo = productNo;
 	}
 	public Long getProductOptNo() {
 		return productOptNo;
@@ -64,10 +75,17 @@ public class OrderProductVo {
 	public void setBasketNo(Long basketNo) {
 		this.basketNo = basketNo;
 	}
+	public List<FileVo> getFileVoList() {
+		return fileVoList;
+	}
+	public void setFileVoList(List<FileVo> fileVoList) {
+		this.fileVoList = fileVoList;
+	}
 	@Override
 	public String toString() {
-		return "OrderProductVo [orderNo=" + orderNo + ", productOptNo=" + productOptNo + ", productNm=" + productNm
-				+ ", productOptNm=" + productOptNm + ", returnFl=" + returnFl + ", orderAmt=" + orderAmt + ", orderSt="
-				+ orderSt + ", payPrc=" + payPrc + ", basketNo=" + basketNo + "]";
+		return "OrderProductVo [orderNo=" + orderNo + ", productNo=" + productNo + ", productOptNo=" + productOptNo
+				+ ", productNm=" + productNm + ", productOptNm=" + productOptNm + ", returnFl=" + returnFl
+				+ ", orderAmt=" + orderAmt + ", orderSt=" + orderSt + ", payPrc=" + payPrc + ", basketNo=" + basketNo
+				+ ", fileVoList=" + fileVoList + "]";
 	}
 }

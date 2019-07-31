@@ -27,13 +27,15 @@ public class OrderController {
 	OrderService orderService;
 	
 	/**
-	 * 주문 내역 확인
+	 * 주문 내역 조회
 	 */
-	@GetMapping(value="/product/list")
-	public ResponseEntity<JSONResult> checkOrderProduct(
+	@GetMapping(value="/list")
+	public ResponseEntity<JSONResult> getOrderInfo(
 			@RequestBody UserVo userVo) {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+		List<OrderVo> orderVo = orderService.getOrderInfo(userVo.getNo());
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderVo));
 	}
 	
 	/**

@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.cafe24.jgmall.vo.UserVo"/>
+		<typeAlias alias="filevo" type="com.cafe24.jgmall.vo.FileVo"/>
 		<typeAlias alias="productvo" type="com.cafe24.jgmall.vo.ProductVo"/>
 		<typeAlias alias="ordervo" type="com.cafe24.jgmall.vo.OrderVo"/>
 		<typeAlias alias="optionvo" type="com.cafe24.jgmall.vo.OptionVo"/>

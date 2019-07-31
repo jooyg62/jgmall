@@ -39,13 +39,70 @@
 			insert into tcst0201(order_nm, addr_gb, addr, tel_num, memo, order_dt, tot_pay_prc, del_fl, user_no)
 				values (#{orderNm}, #{addrGb}, #{addr}, #{telNum}, #{memo}, to_char(now(), 'YYYYMMDD'), #{totPayPrc}, 'N', #{userNo})
 		]]>
+		<selectKey keyProperty="orderNo" resultType="long" order="AFTER">
+			<![CDATA[
+			select currval(pg_get_serial_sequence('tcst0201','no'))
+			]]>
+		</selectKey>
 	</insert>
 	
 	<insert id="insertPayOrderProductList" parameterType="orderproductvo" >
-		<![CDATA[
-			insert into tcst0202(ord_no, pdt_opt_no, return_fl, ord_amt, ord_st, pay_prc, pdt_opt_nm, del_fl)
-				values (#{orderNo}, #{productOptNo}, 'N', #{orderAmt}, 'A', #{payPrc}, #{productOptNm}, 'N')
-		]]>
+			insert into tcst0202(ord_no, pdt_opt_no, return_fl, ord_amt, ord_st, pay_prc, pdt_opt_nm, del_fl) values 
+			<foreach collection="orderProductVoList" item="item" index="index" separator="," open="" close="">
+				(#{orderNo}, #{item.productOptNo}, 'N', #{item.orderAmt}, 'A', #{item.payPrc}, #{item.productOptNm}, 'N')
+			</foreach>
 	</insert>
+	
+	<select id="selectOrderInfo" parameterType="long" resultType="ordervo">
+		<![CDATA[
+			select 
+				no as orderNo,
+				order_nm as orderNm,
+				addr_gb as addrGb,
+				addr as addr,
+				tel_num as telNum,
+				memo as memo,
+				order_dt as orderDate,
+				tot_pay_prc as totPayPrc
+			from tcst0201
+			where del_fl = 'N' 
+			  and user_no = #{userNo}
+		]]>
+	</select>
+	
+	<select id="selectOrderProductList" parameterType="long" resultType="orderproductvo">
+		<![CDATA[
+			select 
+				a.ord_no as orderNo,
+				a.pdt_opt_no as productOptNo,
+				c.no as productNo,
+				c.prd_nm as productNm,
+				a.return_fl as returnFl,
+				a.ord_amt as orderAmt,
+				a.ord_st as orderSt,
+				a.pay_prc as payPrc,
+				a.pdt_opt_nm as productOptNm
+			from tcst0202 a
+				left outer join tpdt0002 b
+				on a.ord_no = b.no
+				left outer join tpdt0001 c
+				on b.pdt_no = c.no
+			where a.del_fl = 'N'
+			  and a.ord_no = #{orderNo}
+		]]>
+	</select>
+	
+	<select id="selectProductImgList" parameterType="long" resultType="filevo">
+		<![CDATA[
+			select 
+				type_cd as typeCd,
+				ori_nm as oriNm,
+				save_url as saveUrl,
+				ext_nm as extNm
+				from timg0001
+			where del_fl = 'N'
+			  and pdt_no = #{productNo}
+		]]>
+	</select>
 	
 </mapper>

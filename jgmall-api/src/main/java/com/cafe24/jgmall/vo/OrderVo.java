@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderVo {
-	String orderNo;
+	Long orderNo;
 	String orderNm;
 	String addrGb;
 	String addr;
@@ -17,10 +17,10 @@ public class OrderVo {
 	Integer totPayPrc;
 	String orderUserId;
 	List<OrderProductVo> orderProductVoList = new ArrayList<OrderProductVo>();
-	public String getOrderNo() {
+	public Long getOrderNo() {
 		return orderNo;
 	}
-	public void setOrderNo(String orderNo) {
+	public void setOrderNo(Long orderNo) {
 		this.orderNo = orderNo;
 	}
 	public String getOrderNm() {

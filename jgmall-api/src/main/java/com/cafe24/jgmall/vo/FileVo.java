@@ -1,29 +1,21 @@
 package com.cafe24.jgmall.vo;
 
 public class FileVo {
-	String imgType;
-	String oriFileNm;
-	String saveFileName;
+	String typeCd;
+	String oriNm;
 	String saveUrl;
 	String extNm;
-	String delFl;
-	public String getImgType() {
-		return imgType;
+	public String getTypeCd() {
+		return typeCd;
 	}
-	public void setImgType(String imgType) {
-		this.imgType = imgType;
+	public void setTypeCd(String typeCd) {
+		this.typeCd = typeCd;
 	}
-	public String getOriFileNm() {
-		return oriFileNm;
+	public String getOriNm() {
+		return oriNm;
 	}
-	public void setOriFileNm(String oriFileNm) {
-		this.oriFileNm = oriFileNm;
-	}
-	public String getSaveFileName() {
-		return saveFileName;
-	}
-	public void setSaveFileName(String saveFileName) {
-		this.saveFileName = saveFileName;
+	public void setOriNm(String oriNm) {
+		this.oriNm = oriNm;
 	}
 	public String getSaveUrl() {
 		return saveUrl;
@@ -37,15 +29,8 @@ public class FileVo {
 	public void setExtNm(String extNm) {
 		this.extNm = extNm;
 	}
-	public String getDelFl() {
-		return delFl;
-	}
-	public void setDelFl(String delFl) {
-		this.delFl = delFl;
-	}
 	@Override
 	public String toString() {
-		return "FileVo [imgType=" + imgType + ", oriFileNm=" + oriFileNm + ", saveFileName=" + saveFileName
-				+ ", saveUrl=" + saveUrl + ", extNm=" + extNm + ", delFl=" + delFl + "]";
+		return "FileVo [typeCd=" + typeCd + ", oriNm=" + oriNm + ", saveUrl=" + saveUrl + ", extNm=" + extNm + "]";
 	}
 }
