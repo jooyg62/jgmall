@@ -1,7 +1,1 @@
-## 설계 및 기획 문서
-- Docs 폴더
-## 현재 작성된 테스트 코드
-- **UserController**
-- ShopController
-## API 목록 (공사중..)
-<img src="https://user-images.githubusercontent.com/18259297/61124569-29102980-a4e2-11e9-8f0c-ad7c13ad3864.PNG"></img>
+<a href='https://github.com/jooyg62/jgmall/tree/master/docs/%EC%84%A4%EA%B3%84%EB%B0%8F%EB%B6%84%EC%84%9D'>API 정의서(링크)</a>
