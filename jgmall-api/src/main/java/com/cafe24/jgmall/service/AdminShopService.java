@@ -2,15 +2,13 @@ package com.cafe24.jgmall.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.jgmall.repository.AdminShopDao;
 import com.cafe24.jgmall.vo.OptionVo;
+import com.cafe24.jgmall.vo.ProductOptVo;
 import com.cafe24.jgmall.vo.ProductVo;
-import com.cafe24.jgmall.vo.api.ReqAdminRegistProductVo;
 
 @Service
 public class AdminShopService {
@@ -34,6 +32,8 @@ public class AdminShopService {
 				adminShopDao.insertOptionNm(optionVo);
 				adminShopDao.insertOptionValue(optionVo);
 			}
+		} else {
+			adminShopDao.insertNonOptionProduct(productVo);
 		}
 		
 		return true;
@@ -46,6 +46,10 @@ public class AdminShopService {
 
 	public ProductVo getProductDetail(Long productNo) {
 		ProductVo productVo = adminShopDao.selectProductDetail(productNo);
+		
+		List<ProductOptVo> productOptVoList = adminShopDao.selectProductOptionList(productNo);
+		productVo.setProductOptVoList(productOptVoList);
+		
 		return productVo;
 	}
 

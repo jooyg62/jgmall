@@ -77,4 +77,22 @@ public class ShopController {
 		return "/basket/user/" + userNo;
 	}
 	
+	/**
+	 * 상품 상세
+	 * @return
+	 */
+	@GetMapping("/product/{productNo}")
+	public String getProductInfo(
+			@PathVariable String productNo,
+			Model model) {
+		JSONResult<ProductVo> vo = shopService.getProductInfo(productNo);
+		model.addAttribute("vo", vo);
+		
+		if("fail".equals(vo.getResult())) {
+			return "redirect:/main";
+		}
+		
+		return "admin/shop/item";
+	}
+	
 }

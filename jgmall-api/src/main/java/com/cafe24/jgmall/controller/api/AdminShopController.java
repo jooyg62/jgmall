@@ -49,7 +49,7 @@ public class AdminShopController {
 			}
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(sb.toString()));
 		}
-		System.out.println("productVo=" + productVo.toString());
+		
 		Boolean result = adminShopService.registProduct(productVo);
 		
 		if(result == false) {

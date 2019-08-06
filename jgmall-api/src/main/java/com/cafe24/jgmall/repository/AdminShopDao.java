@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.jgmall.vo.OptionVo;
+import com.cafe24.jgmall.vo.ProductOptVo;
 import com.cafe24.jgmall.vo.ProductVo;
 
 @Repository
@@ -17,6 +18,11 @@ public class AdminShopDao {
 
 	public int insert(ProductVo productVo) {
 		int result = sqlSession.insert("shop.insert", productVo);
+		return result;
+	}
+	
+	public int insertNonOptionProduct(ProductVo productVo) {
+		int result = sqlSession.insert("shop.insertNonOptionProduct", productVo);
 		return result;
 	}
 	
@@ -58,6 +64,11 @@ public class AdminShopDao {
 	public int updateProductStock(ProductVo productVo) {
 		int result = sqlSession.update("shop.updateProductStock", productVo);
 		return result;
+	}
+
+	public List<ProductOptVo> selectProductOptionList(Long productNo) {
+		List<ProductOptVo> productOptVo = sqlSession.selectList("shop.selectProductOptionList", productNo);
+		return productOptVo;
 	}
 
 }

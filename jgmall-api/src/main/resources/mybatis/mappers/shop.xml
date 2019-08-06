@@ -14,6 +14,13 @@
 		</selectKey>
 	</insert>
 	
+	<insert id="insertNonOptionProduct" parameterType="productvo">
+		<![CDATA[
+		insert into tpdt0002(opt_ord, opt_nm_no, opt_value_no, opt_nm, display_st, sel_fl, add_prc, stock_amt, stock_fl, del_fl, pdt_no)
+		values (1, null, null, 'FREE', #{displaySt}, #{sellFl}, 0, 0, 'Y', 'N', #{productNo})
+		]]>
+	</insert>
+	
 	<insert id="insertOptionNm" parameterType="optionvo">
 		<![CDATA[
 		insert into tpdt0101(opt_nm, opt_ord, pdt_no) values (#{optionNm}, #{optionOrd}, #{productNo})
@@ -63,10 +70,30 @@
 				sale_prc as salePrc,
 				opt_fl as optionFl,
 				stock_fl as stockFl,
-				stock_amt as stockAmt
+				stock_amt as stockAmt,
 			from tpdt0001
 			where del_fl = 'N'
 			  and no = #{productNo}
+		]]>
+	</select>
+	
+	<select id="selectProductOptionList" parameterType="long" resultType="productoptvo">
+		<![CDATA[
+			select 
+				no as optionNo,
+				opt_ord as optionOrd,
+				opt_nm_no as optionNmNo,
+				opt_value_no as optionValueNo,
+				opt_nm as optionNm,
+				display_st as displaySt,
+				sel_fl as sellFl,
+				add_prc as addPrc,
+				stock_amt as stockAmt,
+				stock_fl as stock_fl,
+				pdt_no as productNo
+				from tpdt0002
+			where del_fl = 'N'
+			  and pdt_no = #{productNo}
 		]]>
 	</select>
 	

@@ -1,5 +1,8 @@
 package com.cafe24.jgmall.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,15 +38,19 @@ public class UserController {
 	@PostMapping("/login")
 	public String doLogin(
 			@ModelAttribute UserVo userVo,
+			HttpServletRequest request,
 			Model model) {
 		JSONResult<UserVo> vo = userService.login(userVo);
 		model.addAttribute("vo", vo);
 		
 		if("fail".equals(vo.getResult())) {
-			return "redirect:user/login";
+			return "redirect:/user/login";
 		}
 		
-		return "redirect:main/index";
+		HttpSession session = request.getSession();
+		session.setAttribute("mallAuthUser", vo.getData());
+		
+		return "redirect:/main";
 	}
 	
 	/**
@@ -70,7 +77,7 @@ public class UserController {
 			return "user/join";
 		}
 		
-		return "redirect:user/login";
+		return "redirect:/main";
 	}
 	
 }

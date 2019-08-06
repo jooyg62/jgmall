@@ -3,15 +3,10 @@ package com.cafe24.jgmall.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.jgmall.dto.JSONResult;
-import com.cafe24.jgmall.dto.jsonresult.ObjectJSONResult;
-import com.cafe24.jgmall.dto.jsonresult.ProductVoListJSONResult;
 import com.cafe24.jgmall.vo.BasketProductVo;
 import com.cafe24.jgmall.vo.ProductVo;
 
@@ -51,5 +46,24 @@ public class ShopService {
 		String endpoint = "http://localhost:8888/jgmall-api/api/shop/basket/product";
 		restTemplate.delete(endpoint, basketProductVo);
 	}
+
+	/**
+	 * 상품 상세
+	 * @param productNo
+	 * @return
+	 */
+	public JSONResult<ProductVo> getProductInfo(String productNo) {
+		String endpoint = "http://localhost:8888/jgmall-api/api/shop/product/" + productNo;
+		JSONResult<ProductVo> jsonResult = restTemplate.getForObject(endpoint, ProductVoJSONResult.class);
+		return jsonResult;
+	}
 	
+	public static class ObjectJSONResult extends JSONResult<Object> {
+	}
+	
+	public static class ProductVoListJSONResult extends JSONResult<List<ProductVo>> {
+	}
+	
+	public static class ProductVoJSONResult extends JSONResult<ProductVo> {
+	}
 }

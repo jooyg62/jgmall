@@ -12,27 +12,20 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-
 				<c:choose>
-					<c:when test='${empty mallAuthUser}'>
+					<c:when test='${empty authUser }'>
 						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a>
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/login">관리자 로그인</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/user/login">로그인<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/user/join">회원가입</a>
-						</li>
-					</c:when>				
+					</c:when>
 					<c:otherwise>
 						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a>
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/shop/product/list">상품 목록</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/user/login">장바구니</a>
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/user/board">회원 목록</a>
 						</li>
-					</c:otherwise>				
+					</c:otherwise>
 				</c:choose>
 			</ul>
 		</div>
