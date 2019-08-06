@@ -12,22 +12,22 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-
+	
+	<!-- Context Loader Listener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<context-param>
 		<param-name>contextClass</param-name>
 		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>com.cafe24.mysite.config.AppConfig</param-value>
+		<param-value>com.cafe24.jgmall.config.AppConfig</param-value>
 	</context-param>
-
-	<!-- Context Loader Listener -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<!-- Encodng Filter -->
+	
+	<!-- Encoding Filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -44,7 +44,7 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+		
 	<!-- Dispatcher Server(Front Controller) -->	
 	<servlet>
 		<servlet-name>spring</servlet-name>
@@ -55,7 +55,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>com.cafe24.mysite.config.WebConfig</param-value>
+			<param-value>com.cafe24.jgmall.config.WebConfig</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>	
 	</servlet>
@@ -63,7 +63,7 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	
 	<!-- 공통 에러 페이지 -->
 	<error-page>
 		<error-code>404</error-code>
@@ -73,8 +73,4 @@
 		<error-code>500</error-code>
 		<location>/WEB-INF/views/error/500.jsp</location>
 	</error-page>
-	
-	
-	
-	
 </web-app>

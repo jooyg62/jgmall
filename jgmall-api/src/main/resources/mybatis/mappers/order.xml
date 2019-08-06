@@ -70,7 +70,7 @@
 		]]>
 	</select>
 	
-	<select id="selectOrderProductList" parameterType="long" resultType="orderproductvo">
+	<select id="selectUserOrderProductList" parameterType="long" resultType="orderproductvo">
 		<![CDATA[
 			select 
 				a.ord_no as orderNo,
