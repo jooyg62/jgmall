@@ -46,13 +46,14 @@
 					</div>
 				</div><br/>
 				<!-- /.card -->
-				<a href="#" class="btn btn-success">구매하기</a>
-				<form method="post" action="${pageContext.servletContext.contextPath }/shop/basket/product" class="form-signin" name="basketForm">
-					<input type="hidden" name="" value="" />
-					<input type="hidden" name="userNo" value="${mallAuthUser } }" />
+				<form method="post" action="${pageContext.servletContext.contextPath }/shop/basket/product/${vo.data.productNo}" class="form-signin" name="basketForm">
+					<input type="hidden" name="optionNo" value="${vo.data.productOptVoList[0].optionNo }" />
+					<input type="hidden" name="userNo" value="${mallAuthUser.no }" />
 					<input type="hidden" name="productAmt" value="1" />
 					<button class="btn btn-info" type="submit">장바구니 담기</button>
 				</form>
+				<br />
+				<a href="#" class="btn btn-success">구매하기</a>
 			</div>
 			<!-- /.col-lg-9 -->
 

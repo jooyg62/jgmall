@@ -20,10 +20,10 @@
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/shop/product/list">상품 목록</a>
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/user/board">회원 목록</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/user/board">회원 목록</a>
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/shop/product/list">상품 목록</a>
 						</li>
 					</c:otherwise>
 				</c:choose>

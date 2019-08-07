@@ -5,6 +5,7 @@ public class FileVo {
 	String oriNm;
 	String saveUrl;
 	String extNm;
+	String base64EncodingData;
 	public String getTypeCd() {
 		return typeCd;
 	}
@@ -29,8 +30,15 @@ public class FileVo {
 	public void setExtNm(String extNm) {
 		this.extNm = extNm;
 	}
+	public String getBase64EncodingData() {
+		return base64EncodingData;
+	}
+	public void setBase64EncodingData(String base64EncodingData) {
+		this.base64EncodingData = base64EncodingData;
+	}
 	@Override
 	public String toString() {
-		return "FileVo [typeCd=" + typeCd + ", oriNm=" + oriNm + ", saveUrl=" + saveUrl + ", extNm=" + extNm + "]";
+		return "FileVo [typeCd=" + typeCd + ", oriNm=" + oriNm + ", saveUrl=" + saveUrl + ", extNm=" + extNm
+				+ ", base64EncodingData=" + base64EncodingData + "]";
 	}
 }

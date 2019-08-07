@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.jgmall.vo.BasketProductVo;
+import com.cafe24.jgmall.vo.ProductOptVo;
 import com.cafe24.jgmall.vo.ProductVo;
 
 @Repository
@@ -25,6 +26,16 @@ public class ShopDao {
 	public ProductVo selectProductDetailInfo(Long no) {
 		ProductVo productVo = sqlSession.selectOne("shop.selectProductDetail", no);
 		return productVo;
+	}
+	
+	/**
+	 * 상품 상세 옵션 조회
+	 * @param productNo
+	 * @return
+	 */
+	public List<ProductOptVo> selectProductOptionList(Long productNo) {
+		List<ProductOptVo> productOptVo = sqlSession.selectList("shop.selectProductOptionList", productNo);
+		return productOptVo;
 	}
 
 	public List<ProductVo> selectBasketProductList(Long userNo) {

@@ -29,13 +29,14 @@
 		<![CDATA[
 			insert into
 				tcst0001(user_id, password, user_nm, join_dt, tel_num, gender, age, del_yn) 
-			values (#{userId}, #{password}, #{userNm}, #{joinDate}, #{telNum}, #{gender}, #{age}, 'N')
+			values (#{userId}, #{password}, #{userNm}, now(), #{telNum}, #{gender}, #{age}, 'N')
 		]]>
 	</insert>
 	
 	<select id="login" parameterType="reqloginvo" resultType="uservo" >
 		<![CDATA[
 			select
+				no as no,
 				user_id as userId,
 				password as password,
 				user_nm as userNm,

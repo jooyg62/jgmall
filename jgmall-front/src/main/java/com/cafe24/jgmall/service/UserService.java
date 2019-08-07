@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.jgmall.dto.JSONResult;
+import com.cafe24.jgmall.dto.jsonresult.ObjectJSONResult;
 import com.cafe24.jgmall.dto.jsonresult.UserVoJSONResult;
 import com.cafe24.jgmall.vo.UserVo;
 
@@ -35,7 +36,5 @@ public class UserService {
 		JSONResult<Object> jsonResult = (JSONResult<Object>) restTemplate.postForObject(endpoint, userVo, ObjectJSONResult.class);
 		return jsonResult;
 	}
-	
-	public static class ObjectJSONResult extends JSONResult<Object> {
-	}
+
 }

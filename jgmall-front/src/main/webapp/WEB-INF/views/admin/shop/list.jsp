@@ -15,6 +15,73 @@
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-login.css" rel="stylesheet">
 </head>
+<script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery.js"></script>
+<script>
+$(function(){
+	
+	$("#imgAttach").on("change", function(event) {
+		
+		var file    = this.files[0];
+		var reader  = new FileReader();
+		
+		var fileNames = file.name.split(".");
+		var fileOriName = fileNames[0];
+		var ext = fileNames[1];
+
+		reader.addEventListener("load", function () {
+			//파일 읽어오기 후 loadend 이벤트 발생
+			var base64Img = reader.result.substr(reader.result.indexOf(",")+1);
+			fileUploadBase64(fileOriName, ext, base64Img);
+		}, false);
+
+		if (file) {
+			// 파일 읽어오기
+			reader.readAsDataURL(file);
+		}
+		
+		
+		
+	});
+	
+	fileUploadBase64 = function(fileOriName, ext, base64Img) {
+		console.log(fileOriName);
+		console.log(ext);
+		
+		// 이미지 업로드
+		$.ajax({
+			url: "${pageContext.servletContext.contextPath}/api/file/upload/image",
+			type: "post",
+			cache: false,
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify({
+				"typeCd" : "A",
+				"oriNm" : fileOriName,
+				"saveUrl" : "",
+				"extNm" : ext,
+				"base64EncodingData" : base64Img
+			}),
+			success: function(response) {
+				
+				console.log(response);
+				
+				if("success" != response.result) {
+					alert(response.message);
+					return;
+				}
+				
+				var saveUrl = response.data.saveUrl;
+				$("#preview").attr("src", saveUrl);
+				$("#inputImg").val(saveUrl);
+			},
+			error: function (request, status, error) {
+				alert("서버와의 통신에 문제가 발생하였습니다.");
+			}
+		});
+	}
+	
+})
+</script>
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/admin-navigation.jsp'>
@@ -24,7 +91,10 @@
 
  	<div class="container">
  		<div class="card card-container">
+ 			<label for="imgAttach">이미지 업로드:</label><input type="file" id="imgAttach" name="imgAttach">
+ 			<img id="preview" src="">
         	<form method="post" action="${pageContext.servletContext.contextPath }/admin/shop/product" class="form-signin" name="productForm">
+        		<input type="hidden" id="inputImg" name="imgUrl" value="" >
                 <span>상품명: </span>
                 <input class="form-control" placeholder="상품명" name="productNm" value="슈퍼 런닝화" required autofocus><br />
                 <span>판매가격: </span>

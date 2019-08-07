@@ -24,8 +24,6 @@ public class ReqJoinVo {
 	@Pattern(regexp="^[가-힣|a-zA-Z]{2,20}$", message="이름 형식이 맞지 않습니다.")
 	String userNm;
 	
-	@NotBlank
-	@Pattern(regexp="[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])", message="가입일 형식이 맞지 않습니다.")
 	String joinDate;
 	
 	@NotBlank
@@ -37,7 +35,7 @@ public class ReqJoinVo {
 	String gender;
 	
 	@DecimalMin(value="1", message="나이 형식이 맞지 않습니다.")
-	@DecimalMax(value="100", message="나이 형식이 맞지 않습니다.")
+	@DecimalMax(value="1000", message="나이 형식이 맞지 않습니다.")
 	int age;
 
 	public String getUserId() {

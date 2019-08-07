@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.jgmall.repository.ShopDao;
 import com.cafe24.jgmall.vo.BasketProductVo;
+import com.cafe24.jgmall.vo.ProductOptVo;
 import com.cafe24.jgmall.vo.ProductVo;
 
 @Service
@@ -31,9 +32,13 @@ public class ShopService {
 	 */
 	public ProductVo getProductInfo(Long no) {
 		ProductVo productVo = shopDao.selectProductDetailInfo(no);
+		
+		List<ProductOptVo> productOptVoList = shopDao.selectProductOptionList(no);
+		productVo.setProductOptVoList(productOptVoList);
+		
 		return productVo;
 	}
-
+	
 	/**
 	 * 장바구니 조회
 	 * @param no

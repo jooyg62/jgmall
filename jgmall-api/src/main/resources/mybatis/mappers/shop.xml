@@ -61,6 +61,7 @@
 	<select id="selectProductDetail" parameterType="long" resultType="productvo">
 		<![CDATA[
 			select 
+				no as productNo,
 				prd_nm as productNm,
 				sel_fl as sellFl,
 				display_st as displaySt,
@@ -70,7 +71,7 @@
 				sale_prc as salePrc,
 				opt_fl as optionFl,
 				stock_fl as stockFl,
-				stock_amt as stockAmt,
+				stock_amt as stockAmt
 			from tpdt0001
 			where del_fl = 'N'
 			  and no = #{productNo}

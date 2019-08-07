@@ -28,7 +28,7 @@
             <p id="profile-name" class="profile-name-card"></p>
             <form method="post" action="login" class="form-signin" name="loginForm">
                 <span id="reauth-email" class="reauth-email"></span>
-                <input type="input" id="inputId" class="form-control" placeholder="이메일" name="userId" value="jgseo" required autofocus>
+                <input type="input" id="inputId" class="form-control" placeholder="아이디" name="userId" value="jgseo" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" name="password" value="!@jgseo450" required>
                 <div id="remember" class="checkbox">
                     <label>

@@ -19,7 +19,7 @@ public class UserDao {
 	}
 
 	public int insertUserInfo(ReqJoinVo reqJoinVo) {
-		return sqlSession.selectOne("user.insertUser", reqJoinVo);
+		return sqlSession.insert("user.insertUser", reqJoinVo);
 	}
 
 	public UserVo login(ReqLoginVo reqLoginVo) {

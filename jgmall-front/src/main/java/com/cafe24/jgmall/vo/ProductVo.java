@@ -14,12 +14,14 @@ public class ProductVo {
 	Integer salePrc;
 	String optionFl;
 	String deleteFl;
+	String optionNo;
 	String optionNm;
 	String addPrc;
 	Integer optionOrd;
 	Integer stockAmt;
 	Integer basketStockAmt;
 	String stockFl;
+	List<ProductOptVo> productOptVoList = new ArrayList<ProductOptVo>();
 	List<OptionVo> optionVoList = new ArrayList<OptionVo>();
 	List<FileVo> fileList = new ArrayList<FileVo>();
 	public Long getProductNo() {
@@ -82,6 +84,12 @@ public class ProductVo {
 	public void setDeleteFl(String deleteFl) {
 		this.deleteFl = deleteFl;
 	}
+	public String getOptionNo() {
+		return optionNo;
+	}
+	public void setOptionNo(String optionNo) {
+		this.optionNo = optionNo;
+	}
 	public String getOptionNm() {
 		return optionNm;
 	}
@@ -118,6 +126,12 @@ public class ProductVo {
 	public void setStockFl(String stockFl) {
 		this.stockFl = stockFl;
 	}
+	public List<ProductOptVo> getProductOptVoList() {
+		return productOptVoList;
+	}
+	public void setProductOptVoList(List<ProductOptVo> productOptVoList) {
+		this.productOptVoList = productOptVoList;
+	}
 	public List<OptionVo> getOptionVoList() {
 		return optionVoList;
 	}
@@ -134,9 +148,10 @@ public class ProductVo {
 	public String toString() {
 		return "ProductVo [productNo=" + productNo + ", productNm=" + productNm + ", sellFl=" + sellFl + ", displaySt="
 				+ displaySt + ", regDate=" + regDate + ", productDpt=" + productDpt + ", sellPrc=" + sellPrc
-				+ ", salePrc=" + salePrc + ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNm="
-				+ optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd + ", stockAmt=" + stockAmt
-				+ ", basketStockAmt=" + basketStockAmt + ", stockFl=" + stockFl + ", optionVoList=" + optionVoList
-				+ ", fileList=" + fileList + "]";
+				+ ", salePrc=" + salePrc + ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNo="
+				+ optionNo + ", optionNm=" + optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd
+				+ ", stockAmt=" + stockAmt + ", basketStockAmt=" + basketStockAmt + ", stockFl=" + stockFl
+				+ ", productOptVoList=" + productOptVoList + ", optionVoList=" + optionVoList + ", fileList=" + fileList
+				+ "]";
 	}
 }
