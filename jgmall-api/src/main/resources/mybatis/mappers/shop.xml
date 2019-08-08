@@ -14,6 +14,13 @@
 		</selectKey>
 	</insert>
 	
+	<insert id="insertProductImg" parameterType="productvo">
+		<![CDATA[
+			insert into timg0001(type_cd, ori_nm, save_url, ext_nm, del_fl, pdt_no)
+			values (null, null, #{imgUrl}, null, 'N', #{productNo})
+		]]>
+	</insert>
+	
 	<insert id="insertNonOptionProduct" parameterType="productvo">
 		<![CDATA[
 		insert into tpdt0002(opt_ord, opt_nm_no, opt_value_no, opt_nm, display_st, sel_fl, add_prc, stock_amt, stock_fl, del_fl, pdt_no)
@@ -42,19 +49,21 @@
 	<select id="selectProductList" resultType="productvo">
 		<![CDATA[
 			select 
-				no as productNo,
-				prd_nm as productNm,
-				sel_fl as sellFl,
-				display_st as displaySt,
-				to_char(reg_dt, 'YYYY-MM-DD') as regDate,
-				prd_dpt as productDpt,
-				sel_prc as sellPrc,
-				sale_prc as salePrc,
-				opt_fl as optionFl,
-				stock_fl as stockFl,
-				stock_amt as stockAmt
-			from tpdt0001
-			where del_fl = 'N'
+				A.no as productNo,
+				A.prd_nm as productNm,
+				A.sel_fl as sellFl,
+				A.display_st as displaySt,
+				to_char(A.reg_dt, 'YYYY-MM-DD') as regDate,
+				A.prd_dpt as productDpt,
+				A.sel_prc as sellPrc,
+				A.sale_prc as salePrc,
+				A.opt_fl as optionFl,
+				A.stock_fl as stockFl,
+				A.stock_amt as stockAmt,
+				(select save_url from timg0001 where del_fl = 'N' and pdt_no = A.no limit 1) as imgUrl
+			from tpdt0001 A
+			where A.del_fl = 'N'
+			order by no desc
 		]]>
 	</select>
 	
@@ -71,7 +80,8 @@
 				sale_prc as salePrc,
 				opt_fl as optionFl,
 				stock_fl as stockFl,
-				stock_amt as stockAmt
+				stock_amt as stockAmt,
+				(select save_url from timg0001 where del_fl = 'N' and pdt_no = #{productNo} limit 1) as imgUrl
 			from tpdt0001
 			where del_fl = 'N'
 			  and no = #{productNo}

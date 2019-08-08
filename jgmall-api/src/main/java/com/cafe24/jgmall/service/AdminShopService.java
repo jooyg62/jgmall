@@ -20,6 +20,11 @@ public class AdminShopService {
 		// 1. 상품 등록
 		adminShopDao.insert(productVo);
 		
+		if(!productVo.getImgUrl().isEmpty()) {
+			// 2. 상품 이미지 등록
+			adminShopDao.insertProductImg(productVo);
+		}
+		
 		if("Y".equals(productVo.getOptionFl())) {
 			long lastInsertProductNo = productVo.getProductNo();
 			

@@ -44,8 +44,6 @@ $(function(){
 	});
 	
 	fileUploadBase64 = function(fileOriName, ext, base64Img) {
-		console.log(fileOriName);
-		console.log(ext);
 		
 		// 이미지 업로드
 		$.ajax({
@@ -63,8 +61,6 @@ $(function(){
 			}),
 			success: function(response) {
 				
-				console.log(response);
-				
 				if("success" != response.result) {
 					alert(response.message);
 					return;
@@ -73,6 +69,8 @@ $(function(){
 				var saveUrl = response.data.saveUrl;
 				$("#preview").attr("src", saveUrl);
 				$("#inputImg").val(saveUrl);
+				$("#imgUpload").addClass("d-none");
+				$("#imgAttach").addClass("d-none");
 			},
 			error: function (request, status, error) {
 				alert("서버와의 통신에 문제가 발생하였습니다.");
@@ -91,10 +89,11 @@ $(function(){
 
  	<div class="container">
  		<div class="card card-container">
- 			<label for="imgAttach">이미지 업로드:</label><input type="file" id="imgAttach" name="imgAttach">
- 			<img id="preview" src="">
+ 			<label id="imgUpload" for="imgAttach">이미지 업로드:</label><input type="file" id="imgAttach" name="imgAttach">
+ 			<img class="card-img-top" id="preview" src="">
         	<form method="post" action="${pageContext.servletContext.contextPath }/admin/shop/product" class="form-signin" name="productForm">
         		<input type="hidden" id="inputImg" name="imgUrl" value="" >
+        		<br />
                 <span>상품명: </span>
                 <input class="form-control" placeholder="상품명" name="productNm" value="슈퍼 런닝화" required autofocus><br />
                 <span>판매가격: </span>

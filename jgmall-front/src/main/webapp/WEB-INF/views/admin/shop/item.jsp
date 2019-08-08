@@ -27,19 +27,13 @@
 	<div class="container">
 		<div class="row">
 
-			<div class="col-lg-3">
-				<h1 class="my-4">JGMall</h1>
-			</div>
-			<!-- /.col-lg-3 -->
-
-			<div class="col-lg-9">
+			<div class="col-lg-12">
 
 				<div class="card mt-4">
-					<img class="card-img-top img-fluid"
-						src="http://placehold.it/900x400" alt="">
+					<img class="card-img-top img-fluid"	src="${vo.data.imgUrl }" onerror="this.src='http://placehold.it/700x400'" alt="상품 이미지">
 					<div class="card-body">
 						<h3 class="card-title">${vo.data.productNm }</h3>
-						<h4>${vo.data.sellPrc }</h4>
+						<h4><fmt:formatNumber value="${vo.data.sellPrc }" pattern="#,###"/></h4>
 						<p class="card-text">
 							${vo.data.productDpt }
 						</p>

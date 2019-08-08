@@ -71,4 +71,10 @@ public class AdminShopDao {
 		return productOptVo;
 	}
 
+	public int insertProductImg(ProductVo productVo) {
+		int result = sqlSession.insert("shop.insertProductImg", productVo);
+		return result;
+	}
+
+
 }

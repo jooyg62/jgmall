@@ -21,6 +21,7 @@ public class ProductVo {
 	Integer stockAmt;
 	Integer basketStockAmt;
 	String stockFl;
+	String imgUrl;
 	List<ProductOptVo> productOptVoList = new ArrayList<ProductOptVo>();
 	List<OptionVo> optionVoList = new ArrayList<OptionVo>();
 	List<FileVo> fileList = new ArrayList<FileVo>();
@@ -126,6 +127,12 @@ public class ProductVo {
 	public void setStockFl(String stockFl) {
 		this.stockFl = stockFl;
 	}
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 	public List<ProductOptVo> getProductOptVoList() {
 		return productOptVoList;
 	}
@@ -150,8 +157,8 @@ public class ProductVo {
 				+ displaySt + ", regDate=" + regDate + ", productDpt=" + productDpt + ", sellPrc=" + sellPrc
 				+ ", salePrc=" + salePrc + ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNo="
 				+ optionNo + ", optionNm=" + optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd
-				+ ", stockAmt=" + stockAmt + ", basketStockAmt=" + basketStockAmt + ", stockFl=" + stockFl
-				+ ", productOptVoList=" + productOptVoList + ", optionVoList=" + optionVoList + ", fileList=" + fileList
-				+ "]";
+				+ ", stockAmt=" + stockAmt + ", basketStockAmt=" + basketStockAmt + ", stockFl=" + stockFl + ", imgUrl="
+				+ imgUrl + ", productOptVoList=" + productOptVoList + ", optionVoList=" + optionVoList + ", fileList="
+				+ fileList + "]";
 	}
 }

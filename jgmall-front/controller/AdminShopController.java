@@ -34,8 +34,6 @@ public class AdminShopController {
 			HttpServletRequest request,
 			Model model) {
 		
-		System.out.println("관리자 상품 목록");
-		
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		
@@ -43,12 +41,8 @@ public class AdminShopController {
 			return "redirect:/admin/login";
 		}
 		
-		System.out.println("세션 확인");
-		
 		JSONResult<List<ProductVo>> vo = adminShopService.getProductList();
 		model.addAttribute("vo", vo);
-		
-		System.out.println(vo.getData().toString());
 		
 		if("fail".equals(vo.getResult())) {
 			return "redirect:/admin/login";

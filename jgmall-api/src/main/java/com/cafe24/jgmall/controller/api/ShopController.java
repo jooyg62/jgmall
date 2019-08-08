@@ -56,8 +56,6 @@ public class ShopController {
 		// 상품 상세
 		ProductVo productVo = shopService.getProductInfo(no);
 		
-		System.out.println(productVo.toString());
-		
 		if(productVo == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("존재하지 않는 상품입니다."));
 		}
@@ -79,8 +77,6 @@ public class ShopController {
 	@PostMapping(value="/basket/product")
 	public ResponseEntity<JSONResult> registProductInBasket(
 			@RequestBody BasketProductVo basketProductVo) {
-		
-		System.out.println("회원장바구니담기: " + basketProductVo.toString());
 		
 		Boolean result = shopService.registBasketProduct(basketProductVo);
 		if(result == false) {
