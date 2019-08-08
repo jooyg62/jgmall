@@ -9,7 +9,7 @@ import com.cafe24.config.web.RestTemplateConfig;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan({"com.cafe24.jgmall.security", "com.cafe24.jgmall.service",  "com.cafe24.jgmall.repository"})
+@ComponentScan({"com.cafe24.jgmall.security", "com.cafe24.jgmall.service",  "com.cafe24.jgmall.repository", "com.cafe24.jgmall.aspect"})
 @Import({RestTemplateConfig.class})
 public class AppConfig {
 }
