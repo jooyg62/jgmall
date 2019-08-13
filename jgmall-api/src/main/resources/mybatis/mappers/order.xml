@@ -23,7 +23,8 @@
 		<![CDATA[
 			select 
 				ord_no as orderNo,
-				(select prd_nm from tpdt0001 where no = pdt_no) as productNm,
+				(select no from tpdt0001 where no = (select pdt_no from tpdt0002 where no = pdt_opt_no)) as productNo,
+				(select prd_nm from tpdt0001 where no = (select pdt_no from tpdt0002 where no = pdt_opt_no)) as productNm,
 				return_fl as returnFl,
 				ord_amt as orderAmt,
 				ord_st as orderSt,
@@ -37,7 +38,7 @@
 	<insert id="insertPayOrder" parameterType="ordervo" >
 		<![CDATA[
 			insert into tcst0201(order_nm, addr_gb, addr, tel_num, memo, order_dt, tot_pay_prc, del_fl, user_no)
-				values (#{orderNm}, #{addrGb}, #{addr}, #{telNum}, #{memo}, to_char(now(), 'YYYYMMDD'), #{totPayPrc}, 'N', #{userNo})
+				values (#{orderNm}, #{addrGb}, #{addr}, #{telNum}, #{memo}, now(), #{totPayPrc}, 'N', #{userNo})
 		]]>
 		<selectKey keyProperty="orderNo" resultType="long" order="AFTER">
 			<![CDATA[

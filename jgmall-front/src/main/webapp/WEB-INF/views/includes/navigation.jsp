@@ -29,6 +29,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/shop/basket/user/${mallAuthUser.no}">장바구니</a>
+						</li>
 					</c:otherwise>				
 				</c:choose>
 			</ul>

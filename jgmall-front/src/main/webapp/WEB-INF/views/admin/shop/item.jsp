@@ -47,7 +47,7 @@
 					<button class="btn btn-info" type="submit">장바구니 담기</button>
 				</form>
 				<br />
-				<a href="#" class="btn btn-success">구매하기</a>
+				<a class="d-none" href="#" class="btn btn-success">구매하기</a>
 			</div>
 			<!-- /.col-lg-9 -->
 

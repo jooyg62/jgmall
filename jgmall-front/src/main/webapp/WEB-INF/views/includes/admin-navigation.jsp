@@ -25,6 +25,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/shop/product/list">상품 목록</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin/order/list">주문 내역</a>
+						</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

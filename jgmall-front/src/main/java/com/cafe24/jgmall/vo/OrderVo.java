@@ -12,7 +12,8 @@ public class OrderVo {
 	String memo;
 	String orderDate;
 	String orderPW;
-	String userNo;
+	Long userNo;
+	String userId;
 	String orderSt;
 	Integer totPayPrc;
 	String orderUserId;
@@ -65,11 +66,17 @@ public class OrderVo {
 	public void setOrderPW(String orderPW) {
 		this.orderPW = orderPW;
 	}
-	public String getUserNo() {
+	public Long getUserNo() {
 		return userNo;
 	}
-	public void setUserNo(String userNo) {
+	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getOrderSt() {
 		return orderSt;
@@ -99,7 +106,7 @@ public class OrderVo {
 	public String toString() {
 		return "OrderVo [orderNo=" + orderNo + ", orderNm=" + orderNm + ", addrGb=" + addrGb + ", addr=" + addr
 				+ ", telNum=" + telNum + ", memo=" + memo + ", orderDate=" + orderDate + ", orderPW=" + orderPW
-				+ ", userNo=" + userNo + ", orderSt=" + orderSt + ", totPayPrc=" + totPayPrc + ", orderUserId="
-				+ orderUserId + ", orderProductVoList=" + orderProductVoList + "]";
+				+ ", userNo=" + userNo + ", userId=" + userId + ", orderSt=" + orderSt + ", totPayPrc=" + totPayPrc
+				+ ", orderUserId=" + orderUserId + ", orderProductVoList=" + orderProductVoList + "]";
 	}
 }

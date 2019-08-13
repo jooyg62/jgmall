@@ -22,6 +22,7 @@ public class ProductVo {
 	Integer basketStockAmt;
 	String stockFl;
 	String imgUrl;
+	Long basketNo;
 	List<ProductOptVo> productOptVoList = new ArrayList<ProductOptVo>();
 	List<OptionVo> optionVoList = new ArrayList<OptionVo>();
 	List<FileVo> fileList = new ArrayList<FileVo>();
@@ -133,6 +134,12 @@ public class ProductVo {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
+	public Long getBasketNo() {
+		return basketNo;
+	}
+	public void setBasketNo(Long basketNo) {
+		this.basketNo = basketNo;
+	}
 	public List<ProductOptVo> getProductOptVoList() {
 		return productOptVoList;
 	}
@@ -158,7 +165,8 @@ public class ProductVo {
 				+ ", salePrc=" + salePrc + ", optionFl=" + optionFl + ", deleteFl=" + deleteFl + ", optionNo="
 				+ optionNo + ", optionNm=" + optionNm + ", addPrc=" + addPrc + ", optionOrd=" + optionOrd
 				+ ", stockAmt=" + stockAmt + ", basketStockAmt=" + basketStockAmt + ", stockFl=" + stockFl + ", imgUrl="
-				+ imgUrl + ", productOptVoList=" + productOptVoList + ", optionVoList=" + optionVoList + ", fileList="
-				+ fileList + "]";
+				+ imgUrl + ", basketNo=" + basketNo + ", productOptVoList=" + productOptVoList + ", optionVoList="
+				+ optionVoList + ", fileList=" + fileList + "]";
 	}
+	
 }

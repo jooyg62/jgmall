@@ -26,7 +26,7 @@ public class ShopService {
 	 */
 	public JSONResult<List<ProductVo>> getBasketInfo(String userNo) {
 		String endpoint = "http://localhost:8888/jgmall-api/api/shop/basket/user/" + userNo;
-		JSONResult<List<ProductVo>> jsonResult = restTemplate.getForObject(endpoint, null, ProductVoListJSONResult.class);
+		JSONResult<List<ProductVo>> jsonResult = restTemplate.getForObject(endpoint, ProductVoListJSONResult.class);
 		return jsonResult;
 	}
 

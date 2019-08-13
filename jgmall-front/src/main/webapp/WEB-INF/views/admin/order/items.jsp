@@ -15,39 +15,42 @@
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-login.css" rel="stylesheet">
 </head>
+<script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery.js"></script>
+<script>
+$(function(){
+
+	
+});
+
+</script>
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/admin-navigation.jsp'>
 		<c:param name="active" value="login" />
 	</c:import>
 	<!-- /.Navigation -->
-
- 	<div class="container">
- 		<div class="card card-container">
-            	신규 회원수: ${vo.data.joinTodayCount} 
-            	<br/>
-            	전체 회원수: ${vo.data.totalUserCount}
-        </div>
-        <!-- /.card-container -->
+	<div class="container">
         <div>
-        	<h3>회원 리스트 현황</h3>
-        	<table class="table">
+        	<h3>주문목록 리스트</h3>
+        	<table class="table table-hover">
         		<tr>
-        			<td>아이디</td>
-        			<td>가입일</td>
-        			<td>이름</td>
-        			<td>휴대전화</td>
-        			<td>성별</td>
-        			<td>나이</td>
+        			<td>주문번호</td>
+        			<td>상품번호</td>
+        			<td>상품명</td>
+        			<td>반품여부</td>
+        			<td>주문수량</td>
+        			<td>상태</td>
+        			<td>결제금액</td>
         		</tr>
-        		<c:forEach items='${vo.data.userInfoList}' var='item' varStatus='status'>
-	        		<tr>
-	        			<td>${item.userId }</td>
-	        			<td>${item.joinDate }</td>
-	        			<td>${item.userNm }</td>
-	        			<td>${item.telNum }</td>
-	        			<td>${item.gender }</td>
-	        			<td>${item.age }</td>
+        		<c:forEach items='${vo.data}' var='item' varStatus='status'>
+	        		<tr class="items">
+	        			<td>${item.orderNo }</td>
+	        			<td>${item.productNo }</td>
+	        			<td>${item.productNm }</td>
+	        			<td>${item.returnFl }</td>
+	        			<td>${item.orderAmt }</td>
+	        			<td>배송중</td>
+	        			<td><fmt:formatNumber value="${item.payPrc }" pattern="#,###"/></td>
 	        		</tr>
         		</c:forEach>
         	</table>

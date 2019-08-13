@@ -15,44 +15,49 @@
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-login.css" rel="stylesheet">
 </head>
+<script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery.js"></script>
+<script>
+$(function(){
+
+	
+});
+
+</script>
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/admin-navigation.jsp'>
 		<c:param name="active" value="login" />
 	</c:import>
 	<!-- /.Navigation -->
-
- 	<div class="container">
- 		<div class="card card-container">
-            	신규 회원수: ${vo.data.joinTodayCount} 
-            	<br/>
-            	전체 회원수: ${vo.data.totalUserCount}
-        </div>
-        <!-- /.card-container -->
         <div>
-        	<h3>회원 리스트 현황</h3>
+        	<h3>주문목록 리스트</h3>
         	<table class="table">
         		<tr>
-        			<td>아이디</td>
-        			<td>가입일</td>
-        			<td>이름</td>
+        			<td>주문번호</td>
+        			<td>주문자명</td>
+        			<td>주문자아이디</td>
+        			<td>주소</td>
         			<td>휴대전화</td>
-        			<td>성별</td>
-        			<td>나이</td>
+        			<td>메모내용</td>
+        			<td>주문일</td>
+        			<td>총 결제금액</td>
+        			<td></td>
         		</tr>
-        		<c:forEach items='${vo.data.userInfoList}' var='item' varStatus='status'>
-	        		<tr>
-	        			<td>${item.userId }</td>
-	        			<td>${item.joinDate }</td>
-	        			<td>${item.userNm }</td>
+        		<c:forEach items='${vo.data}' var='item' varStatus='status'>
+	        		<tr class="items">
+	        			<td>${item.orderNo }</td>
+	        			<td>${item.orderNm }</td>
+	        			<td>${item.orderUserId }</td>
+	        			<td>${item.addr }</td>
 	        			<td>${item.telNum }</td>
-	        			<td>${item.gender }</td>
-	        			<td>${item.age }</td>
+	        			<td>${item.memo }</td>
+	        			<td>${item.orderDate }</td>
+	        			<td><fmt:formatNumber value="${item.totPayPrc }" pattern="#,###"/></td>
+	        			<td><a href="${pageContext.servletContext.contextPath}/admin/order/${item.orderNo }/product/list" class="btn btn-success">상세</a></td>
 	        		</tr>
         		</c:forEach>
         	</table>
         </div>
-	</div>
 	<!-- /.container -->
 
 	<!-- Footer -->

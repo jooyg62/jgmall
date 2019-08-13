@@ -29,8 +29,7 @@ public class OrderService {
 	 */
 	public Boolean payOrder(OrderVo orderVo) {
 		// 주문 등록
-		int orderNo = orderDao.insertPayOrder(orderVo);
-		orderVo.setOrderNo(Long.parseLong(Integer.toString(orderNo)));
+		int result = orderDao.insertPayOrder(orderVo);
 		
 		// 주문 상품 등록
 		orderDao.insertPayOrderProductList(orderVo);

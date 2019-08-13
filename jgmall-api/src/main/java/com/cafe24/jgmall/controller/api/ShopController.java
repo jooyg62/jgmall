@@ -70,6 +70,8 @@ public class ShopController {
 		
 		List<ProductVo> productVo = shopService.getBasketProductList(userNo);
 		
+		System.out.println("회원장바구니내역조회 productVo: " + productVo.toString());
+		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
 	}
 	

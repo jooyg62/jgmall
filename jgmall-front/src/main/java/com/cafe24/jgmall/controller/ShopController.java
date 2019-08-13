@@ -43,7 +43,7 @@ public class ShopController {
 			return "user/login";
 		}
 		
-		return "shop/basket";
+		return "shop/basketList";
 	}
 	
 	/**

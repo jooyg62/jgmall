@@ -114,8 +114,8 @@ $(function(){
         </div>
         <!-- /.card-container -->
         <div>
-        	<span>-------- 상품 리스트 --------</span>
-        	<table>
+        	<h3>상품 리스트</h3>
+        	<table class="table">
         		<tr>
         			<td>상품명</td>
         			<td>판매가격</td>
@@ -128,8 +128,8 @@ $(function(){
         		<c:forEach items='${vo.data}' var='item' varStatus='status'>
 	        		<tr>
 	        			<td>${item.productNm }</td>
-	        			<td>${item.sellPrc }</td>
-	        			<td>${item.salePrc }</td>
+	        			<td><fmt:formatNumber value="${item.sellPrc }" pattern="#,###"/></td>
+	        			<td><fmt:formatNumber value="${item.salePrc }" pattern="#,###"/></td>
 	        			<td>${item.productDpt }</td>
 	        			<td>${item.sellFl }</td>
 	        			<td>${item.displaySt }</td>

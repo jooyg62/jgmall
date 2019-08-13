@@ -167,16 +167,19 @@
 	<select id="selectBasketProductList" parameterType="long" resultType="basketproductvo">
 		<![CDATA[
 			select 
+				no as basketNo,
 				opt_no as optionNo,
 				pdt_amt as productAmt 
 			from tcst0301
 			where user_no = #{userNo}
+			  and del_fl = 'N'
 		]]>
 	</select>
 	
 	<select id="selectProductOptList" parameterType="long" resultType="productvo">
 		<![CDATA[
 			select 
+				B.no as optionNo,
 				A.no as productNo,
 				A.prd_nm as productNm,
 				A.prd_dpt as productDpt,
@@ -189,6 +192,7 @@
 			left outer join tpdt0001 A
 			on A.no = B.pdt_no
 			where A.del_fl = 'N'
+			  and B.no = #{optionNo}
 		]]>
 	</select>
 	
@@ -200,7 +204,7 @@
 	
 	<update id="deleteBasketProduct" parameterType="long">
 		<![CDATA[
-			update tcst0301 set del_fl='Y' where no = {basketNo}
+			update tcst0301 set del_fl='Y' where no = #{basketNo}
 		]]>
 	</update>
 	

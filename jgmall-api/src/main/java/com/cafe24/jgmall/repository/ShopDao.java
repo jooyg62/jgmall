@@ -40,11 +40,14 @@ public class ShopDao {
 
 	public List<ProductVo> selectBasketProductList(Long userNo) {
 		List<ProductVo> productList = new ArrayList<ProductVo>();
-			List<BasketProductVo> basketproductList = sqlSession.selectList("shop.selectBasketProductList", userNo);
+		List<BasketProductVo> basketproductList = sqlSession.selectList("shop.selectBasketProductList", userNo);
 			for(BasketProductVo vo : basketproductList) {
 				ProductVo productVo = sqlSession.selectOne("shop.selectProductOptList", vo.getOptionNo());
-				productVo.setBasketStockAmt(vo.getProductAmt());
-				productList.add(productVo);
+				if(productVo != null) {
+					productVo.setBasketStockAmt(vo.getProductAmt());
+					productVo.setBasketNo(vo.getBasketNo());
+					productList.add(productVo);
+				}
 			}
 		
 		return productList;
