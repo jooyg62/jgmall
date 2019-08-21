@@ -28,5 +28,7 @@
   <modules>
   	<module>jgmall-api</module>
   	<module>jgmall-front</module>
+  	<module>zipkin-server</module>
+  	<module>zipkin-client</module>
   </modules>
 </project>

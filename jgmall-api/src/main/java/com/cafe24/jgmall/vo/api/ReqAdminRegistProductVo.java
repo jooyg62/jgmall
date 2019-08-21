@@ -1,19 +1,12 @@
 package com.cafe24.jgmall.vo.api;
 
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 public class ReqAdminRegistProductVo {
-	@NotBlank
 	String productNm;
 	
-	@NotBlank
-	@Pattern(regexp="^[YN]{1}$")
 	String sellFl;
 	
-	@NotBlank
-	@Pattern(regexp="^[YN]{1}$")
 	String displaySt;
 	String regDate;
 	String productDpt;
@@ -22,8 +15,6 @@ public class ReqAdminRegistProductVo {
 	Integer sellPrc;
 	Integer salePrc;
 	
-	@NotBlank
-	@Pattern(regexp="^[YN]{1}$")
 	String optionFl;
 	String deleteFl;
 	

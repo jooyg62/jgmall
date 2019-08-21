@@ -20,7 +20,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>2.1.3.RELEASE</version>
+				<version>1.5.9.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -28,6 +28,19 @@
 	</dependencyManagement>
 
 	<dependencies>
+	
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-zipkin</artifactId>
+		    <version>1.3.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-sleuth</artifactId>
+		    <version>1.3.2.RELEASE</version>
+		</dependency>
+	
 		<!-- Spring Web(MVC) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -68,7 +81,6 @@
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
 		</dependency>
 
 		<!-- postgresql jdbc driver -->
@@ -87,13 +99,11 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
 		</dependency>
 		
 		<dependency>
@@ -165,11 +175,10 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
 		</dependency>
-
+		
 	</dependencies>
-
+	
 	<build>
 		<finalName>${artifactId}</finalName>
 		<plugins>

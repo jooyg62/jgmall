@@ -39,8 +39,6 @@ $(function(){
 			}
 			
 			orderProductVoList.push(orderProductVo);
-			
-			console.log( Number(items.eq(i).attr("productOptNo")));
 		}
 		
 		// 결제하기
@@ -80,18 +78,18 @@ $(function(){
 		
 	});
 	
-	
-});
-
 var	init = function() {
 		sum = 0;
 		var $sellPrc = $(".sellPrc");
 		for(var i=0; i < $sellPrc.length; i++) {
-			sum += Number($sellPrc.eq(i).text()); 
+			sum += Number($sellPrc.eq(i).text().replace(',', '')); 
 		}
 		
 		$("#totPayPrc").val(sum);
 	}
+	
+})
+
 </script>
 <body>
 	<!-- Navigation -->

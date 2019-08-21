@@ -3,34 +3,31 @@ package com.cafe24.jgmall.vo.api;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
 
 public class ReqJoinVo {
-	@NotBlank
 	@Length(min=5, max=15, message="아이디는 5~15자 사이로 입력해주세요.")
 	@Pattern(regexp="^[a-zA-Z]{1}[a-zA-Z0-9_]*$", message="아이디 형식이 맞지 않습니다.")
 	String userId;
 	
-	@NotBlank
 	@Length(min=8, max=16, message="패스워드 길이는 8~16자 입니다.")
 	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]*$", message="패스워드 형식이 맞지 않습니다.")
 	String password;
 	
-	@NotBlank
+	
 	@Pattern(regexp="^[가-힣|a-zA-Z]{2,20}$", message="이름 형식이 맞지 않습니다.")
 	String userNm;
 	
 	String joinDate;
 	
-	@NotBlank
+	
 	@Pattern(regexp="^01(?:0|1|[6-9])(\\d{3}|\\d{4})(\\d{4})$", message="휴대번호 형식이 맞지 않습니다.")
 	String telNum;
 	
-	@NotBlank
+	
 	@Pattern(regexp="^[M|F]{1}$", message="성별 형식이 맞지 않습니다.")
 	String gender;
 	

@@ -1,12 +1,12 @@
-package com.cafe24.jgmall;
+package com.cafe24.zipkin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
+import zipkin.server.EnableZipkinServer;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.cafe24.jgmall"})
+@EnableZipkinServer
 public class BootApp {
 	public static void main(String[] args) {
 		SpringApplication.run(BootApp.class, args);
